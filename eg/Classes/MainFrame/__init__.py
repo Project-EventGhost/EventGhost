@@ -354,9 +354,11 @@ class MainFrame(wx.Frame):
         Append("New", "\tCtrl+N")
         Append("Open", "\tCtrl+O")
         Append("Save", "\tCtrl+S").Enable(False)
-        Append("SaveAs")
+        Append("SaveAs", "\tShift+Ctrl+S")
         menu.AppendSeparator()
-        Append("Options")
+        Append("Options", "\tCtrl+P")
+        menu.AppendSeparator()
+        Append("Restart", "\tShift+Ctrl+~")
         menu.AppendSeparator()
         Append("Exit")
 
@@ -401,11 +403,11 @@ class MainFrame(wx.Frame):
         # configuration menu
         menu = wx.Menu()
         menuBar.Append(menu, text.ConfigurationMenu)
-        Append("AddPlugin", image=ADD_PLUGIN_ICON)
-        Append("AddFolder", image=ADD_FOLDER_ICON)
-        Append("AddMacro", image=ADD_MACRO_ICON)
-        Append("AddEvent", image=ADD_EVENT_ICON)
-        Append("AddAction", image=ADD_ACTION_ICON)
+        Append("AddPlugin", "\tShift+Ctrl+P", image=ADD_PLUGIN_ICON)
+        Append("AddFolder", "\tShift+Ctrl+N", image=ADD_FOLDER_ICON)
+        Append("AddMacro", "\tShift+Ctrl+M", image=ADD_MACRO_ICON)
+        Append("AddEvent", "\tShift+Ctrl+E", image=ADD_EVENT_ICON)
+        Append("AddAction", "\tShift+Ctrl+A", image=ADD_ACTION_ICON)
         menu.AppendSeparator()
         Append("Configure", "\tReturn")
         Append("Rename", "\tF2")
@@ -424,7 +426,7 @@ class MainFrame(wx.Frame):
         menu.AppendSeparator()
         #Append("CheckUpdate")
         #menu.AppendSeparator()
-        Append("PythonShell")
+        Append("PythonShell", "\tShift+Ctrl+I")
         menu.AppendSeparator()
         Append("About")
         if eg.debugLevel:
@@ -594,7 +596,6 @@ class MainFrame(wx.Frame):
                 t_val = self.treeCtrl.GetSizeTuple()[coord]
                 self.ratio = float(t_val)/float(l_val)
                 Config.ratio = self.ratio
-                self.auiManager.Update()
         else:
             self.ratioLock = True
 
@@ -841,6 +842,10 @@ class MainFrame(wx.Frame):
     @eg.AsTasklet
     def OnCmdOptions(self):
         eg.OptionsDialog.GetResult(self)
+
+
+    def OnCmdRestart(self):
+        eg.app.Restart()
 
 
     def OnCmdExit(self):
