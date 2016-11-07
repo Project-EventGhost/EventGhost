@@ -76,7 +76,8 @@ class LanguageEditor(wx.Frame):
             for plugin in os.listdir(eg.corePluginDir):
                 if not plugin.startswith("."):
                     try:
-                        eg.pluginManager.OpenPlugin(plugin, plugin, ()).Close()
+                        guid = eg.pluginManager.SearchPluginInfo(plugin)
+                        eg.pluginManager.OpenPlugin(guid, str(plugin), ()).Close()
                     except eg.Exceptions.PluginLoadError:
                         pass
         eg.actionThread.CallWait(LoadPlugins)
@@ -277,10 +278,14 @@ class LanguageEditor(wx.Frame):
         tree.SetPyData(pluginId, ["Plugin", eg.text.Plugin, None])
         for name in plugins:
             newId = tree.AppendItem(pluginId, name, 2)
-            value = getattr(eg.text.Plugin, name)
-            evalPath = "Plugin." + name
-            tree.SetPyData(newId, [evalPath, value, None])
-            self.FillTree(newId, value, evalPath)
+            try:
+                value = getattr(eg.text.Plugin, name)
+            except:
+                pass
+            else:
+                evalPath = "Plugin." + name
+                tree.SetPyData(newId, [evalPath, value, None])
+                self.FillTree(newId, value, evalPath)
 
         tree.Bind(wx.EVT_TREE_SEL_CHANGING, self.OnSelectionChanging)
         tree.Expand(self.rootId)
@@ -425,7 +430,7 @@ class LanguageEditor(wx.Frame):
 
         outFile = codecs.open(
             join(eg.languagesDir, "%s.py" % Config.language),
-            "wt",
+            "w",
             "utf_8"
         )
         outFile.write("# -*- coding: UTF-8 -*-\n")

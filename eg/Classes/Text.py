@@ -160,7 +160,8 @@ class Default:
             WebForum = "Support &Forums"
             WebWiki = "&Wiki"
             PythonShell = "P&ython Shell"
-            CheckUpdate = "Check for &Updates..."
+            CheckUpdate = "Check for EventGhost &Updates..."
+            CheckUpdatePlugins = "Check for Plugi&n Updates..."
             About = "&About EventGhost..."
 
             Apply = "&Apply Changes"

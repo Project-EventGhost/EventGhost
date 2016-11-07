@@ -43,19 +43,30 @@ TEMPLATE = u"""
         <td><b>Version:</b>&nbsp;</td>
         <td>{version}</td>
     </tr>
+    <tr>
+        <td><b>Support:</b>&nbsp;</td>
+        <td>
+            <a href="http://www.eventghost.net/forum/viewforum.php?f=9">
+                Forum Thread
+            </a>
+        </td>
+    </tr>
 </TABLE>
 <P>
 <b>Description:</b>"""
 
 INFO_FIELDS = [
-    "name",
     "author",
-    "version",
-    "url",
-    "guid",
     "description",
+    "guid",
+    "hardwareId",
     "icon",
+    "kind",
+    "name",
+    "url",
+    "version",
 ]
+
 
 class PluginInstall(object):
     def CreatePluginPackage(self, sourcePath, targetPath, pluginData):
@@ -85,17 +96,6 @@ class PluginInstall(object):
     @eg.LogItWithReturn
     def Export(self, pluginInfo):
         pluginData = self.GetPluginData(pluginInfo)
-        #dialog = PluginOverviewDialog(
-        #    eg.document.frame,
-        #    "Plugin Information",
-        #    pluginData=pluginData,
-        #    basePath=pluginInfo.path,
-        #    message="Do you want to save this plugin as a plugin file?"
-        #)
-        #result = dialog.ShowModal()
-        #dialog.Destroy()
-        #if result == wx.ID_CANCEL:
-        #    return
         filename = os.path.basename(pluginInfo.path)
         title = eg.text.MainFrame.Menu.Export.replace("&", "").replace(".", "")
         dialog = wx.FileDialog(
@@ -129,10 +129,12 @@ class PluginInstall(object):
             "guid": pluginInfo.guid,
             "description": description,
             "icon": iconData,
+            "hardwareId": pluginInfo.hardwareId,
+            "kind": pluginInfo.kind,
         }
 
     @eg.LogItWithReturn
-    def Import(self, filepath):
+    def Import(self, filepath, quiet=False):
         tmpDir = tempfile.mkdtemp()
         try:
             zipfile = ZipFile(filepath, "r", ZIP_DEFLATED)
@@ -146,23 +148,16 @@ class PluginInstall(object):
                 if os.path.isdir(path):
                     basePath = path
                     break
-            dialog = PluginOverviewDialog(
-                title="Install EventGhost Plugin",
-                pluginData=pluginData,
-                basePath=basePath,
-                message=(
-                    "Do you really want to install this plugin into "
-                    "EventGhost?"
-                )
-            )
-            result = dialog.ShowModal()
-            dialog.Destroy()
-            if result == wx.ID_CANCEL:
-                return
+
+            if not quiet:
+                rc = self.ShowPluginOverview(pluginData, basePath)
+                if rc == wx.ID_CANCEL:
+                    return wx.ID_CANCEL
+
             guid = pluginData['guid']
-            if guid in eg.pluginManager.database:
+            if guid in eg.pluginManager.plugins.local_cache:
                 # a plugin with same GUID already exists
-                info = eg.pluginManager.database[guid]
+                info = eg.pluginManager.GetPluginInfo(guid)
                 if info.path.lower().startswith(eg.localPluginDir.lower()):
                     # plugin with same GUID exists in user dir, so delete
                     # the folder first
@@ -184,6 +179,22 @@ class PluginInstall(object):
             shutil.rmtree(tmpDir, True)
             #from eg.WinApi.Dynamic import ExitProcess
             #ExitProcess(0)
+        return wx.ID_OK
+
+    def ShowPluginOverview(self, pluginData, basePath):
+        dialog = PluginOverviewDialog(
+            title="Install EventGhost Plugin",
+            pluginData=pluginData,
+            basePath=basePath,
+            message=(
+                "Do you really want to install this plugin into "
+                "EventGhost?"
+            )
+        )
+        result = dialog.ShowModal()
+        dialog.Destroy()
+        return result
+
 
 PluginInstall = PluginInstall()
 

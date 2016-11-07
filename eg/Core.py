@@ -344,6 +344,7 @@ eg.StopException = StopException
 eg.StopMacro = StopMacro
 eg.Unbind = Unbind
 eg.Wait = Wait
+eg.checkUpdate = None
 
 eg.messageReceiver = eg.MainMessageReceiver()
 eg.app = eg.App()

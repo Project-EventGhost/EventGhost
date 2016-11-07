@@ -91,7 +91,7 @@ class ActionThread(eg.ThreadWorker):
             set(pluginInfo.info.hardwareId for pluginInfo in eg.pluginList)
         )
         missingPlugins = [
-            pluginInfo for pluginInfo in eg.pluginManager.database.itervalues()  # NOQA
+            pluginInfo for pluginInfo in eg.pluginManager.GetInstalledInfoList()
             if pluginInfo.hardwareId in missingHardwareIds
         ]
         if missingPlugins:

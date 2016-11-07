@@ -25,6 +25,7 @@ from pkg_resources import parse_version
 # Local imports
 import eg
 
+
 class Text(eg.TranslatableStrings):
     newVersionMesg = \
         "A new version of EventGhost has been released!\n\n"\
@@ -40,15 +41,76 @@ class Text(eg.TranslatableStrings):
     wipUpdateMsg = "Update check not available when running from source."
 
 
-class CheckUpdate:
-    @classmethod
-    @eg.LogIt
-    def Start(cls):
-        threading.Thread(target=_checkUpdate, name="CheckUpdate").start()
+class CheckUpdate(object):
+    def __init__(self):
+        self.timerEG = UpdateCheckTimer(
+            "CheckUpdateEG", _checkUpdateMainProg
+        )
+        self.timerPlugins = UpdateCheckTimer(
+            "CheckUpdatePlugins", eg.pluginManager.UpdateCheck
+        )
 
-    @classmethod
-    def CheckUpdateManually(cls):
-        _checkUpdate(manually=True)
+        if eg.config.checkUpdateEGOnStart:
+            self.RequestCheck(
+                "lastUpdateCheckDateEG",
+                "CheckUpdateEG",
+                _checkUpdateMainProg
+            )
+
+        if eg.config.checkUpdatePluginOnStart:
+            self.RequestCheck(
+                "lastUpdateCheckDatePlugins",
+                "CheckUpdatePlugins",
+                eg.pluginManager.UpdateCheck
+            )
+
+        if eg.config.checkUpdateEGContinuous:
+            self.StartContinuous("EG")
+
+        if eg.config.checkUpdatePluginContinuous:
+            self.StartContinuous("Plugins")
+
+    @eg.LogIt
+    def RequestCheck(self, attr, name, func):
+        today = wx.DateTime_Today()
+        last = wx.DateTime()
+        try:
+            last.ParseISODate(getattr(eg.config, attr))
+        except TypeError:
+            pass
+        # avoid more than one check per day
+        if last != today:
+            setattr(eg.config, attr, today.FormatISODate())
+            wx.CallAfter(
+                self.CheckerThread,
+                func,
+                name
+            )
+
+    @eg.LogIt
+    def StartContinuous(self, attr):
+        # millisecond * second * minute * hour * day
+        ms = 1000 * 1 * 60 * 60 * 24
+        getattr(self, "timer" + attr).Start(ms, oneShot=wx.TIMER_CONTINUOUS)
+
+    @eg.LogIt
+    def StopContinuous(self, attr):
+        getattr(self, "timer"+attr).Stop()
+
+    @staticmethod
+    def CheckerThread(func, name):
+        threading.Thread(
+            target=func,
+            name=name
+        ).start()
+
+    @staticmethod
+    def EGManually():
+        _checkUpdateMainProg(manually=True)
+
+    @staticmethod
+    def PluginsManually():
+        eg.pluginManager.UpdateCheck(manually=True)
 
 
 class MessageDialog(eg.Dialog):
@@ -103,6 +165,26 @@ class MessageDialog(eg.Dialog):
         self.Close()
 
 
+class UpdateCheckTimer(wx.Timer):
+    def __init__(self, attr, func, *args, **kwargs):
+        super(UpdateCheckTimer, self).__init__(*args, **kwargs)
+        self.attrInterval = "lastUpdateCheckDate" + attr[11:]
+        self.func = func
+        self.targetName = attr
+
+    @eg.LogIt
+    def Notify(self, *args, **kwargs):
+        today = wx.DateTime_Today()
+        last = wx.DateTime()
+        try:
+            last.ParseISODate(getattr(eg.config, self.attrInterval))
+        except TypeError:
+            last = today
+        if today - last >= wx.TimeSpan_Days(getattr(eg.config, self.attrInterval)):
+            setattr(eg.config, self.attrInterval, today.FormatISODate())
+            eg.checkUpdate.CheckerThread(self.func, self.targetName)
+
+
 def CenterOnParent(self):
     parent = eg.document.frame
     if parent is None:
@@ -113,6 +195,7 @@ def CenterOnParent(self):
     self.SetPosition(
         ((parentWidth - width) / 2 + x, (parentHeight - height) / 2 + y)
     )
+
 
 def ShowWaitDialog():
     dialog = wx.Dialog(None, style=wx.THICK_FRAME | wx.DIALOG_NO_PARENT)
@@ -125,7 +208,9 @@ def ShowWaitDialog():
     wx.GetApp().Yield()
     return dialog
 
-def _checkUpdate(manually=False):
+
+@eg.LogIt
+def _checkUpdateMainProg(manually=False):
     if eg.Version.string == "WIP":
         if manually:
             wx.MessageBox(Text.wipUpdateMsg, eg.APP_NAME)

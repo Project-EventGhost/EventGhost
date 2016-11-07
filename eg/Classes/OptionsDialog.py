@@ -28,9 +28,12 @@ INDENT_WIDTH = 18
 
 class Text(eg.TranslatableStrings):
     Title = "Options"
-    Tab1 = "General"
-    CheckPreRelease = "Always notify about new pre-releases"
-    CheckUpdate = "Check for EventGhost updates at launch"
+    Page1 = "General"
+    Page2 = "Update"
+    CheckPreRelease = "including pre-releases"
+    CheckUpdateOnStart = "Check at launch"
+    CheckUpdateContinuos1 = "Check every"
+    CheckUpdateContinuos2 = "day(s) while running"
     confirmDelete = "Confirm deletion of tree items"
     confirmRestart = (
         "Language changes only take effect after restarting the application."
@@ -46,6 +49,8 @@ class Text(eg.TranslatableStrings):
     refreshEnv = 'Refresh environment before executing "Run" actions'
     showTrayIcon = "Display EventGhost icon in system tray"
     StartWithWindows = 'Autostart EventGhost for user "%s"' % os.environ["USERNAME"]
+    UpdateEGGroup = "EventGhost updates"
+    UpdatePluginsGroup = "Plugin updates"
     UseAutoloadFile = "Autoload file"
     UseFixedFont = 'Use fixed-size font in the "Log" pane'
 
@@ -79,24 +84,17 @@ class OptionsDialog(eg.TaskletDialog):
         languageList.sort()
         languageNameList = [languageNames[x] for x in languageList]
         notebook = wx.Notebook(self, -1)
-        page1 = eg.Panel(notebook)
-        notebook.AddPage(page1, text.Tab1)
 
         # page 1 controls
+        page1 = eg.Panel(notebook)
+        notebook.AddPage(page1, text.Page1)
+
         startWithWindowsCtrl = page1.CheckBox(
             exists(join((eg.folderPath.Startup or ""), eg.APP_NAME + ".lnk")),
             text.StartWithWindows
         )
         if eg.folderPath.Startup is None:
             startWithWindowsCtrl.Enable(False)
-
-        checkUpdateCtrl = page1.CheckBox(config.checkUpdate, text.CheckUpdate)
-        checkPreReleaseCtrl = page1.CheckBox(config.checkPreRelease, text.CheckPreRelease)
-        checkPreReleaseCtrl.Enable(config.checkUpdate)
-
-        def OnCheckUpdateCheckBox(event):
-            checkPreReleaseCtrl.Enable(event.IsChecked())
-        checkUpdateCtrl.Bind(wx.EVT_CHECKBOX, OnCheckUpdateCheckBox)
 
         confirmDeleteCtrl = page1.CheckBox(
             config.confirmDelete,
@@ -157,6 +155,71 @@ class OptionsDialog(eg.TaskletDialog):
         languageChoice.SetSelection(languageList.index(config.language))
         languageChoice.SetMinSize((150, -1))
 
+        # page 2 controls
+        page2 = eg.Panel(notebook)
+        notebook.AddPage(page2, text.Page2)
+
+        checkUpdateEGOnStartCtrl = page2.CheckBox(
+            config.checkUpdateEGOnStart, text.CheckUpdateOnStart
+        )
+        checkPreReleaseCtrl = page2.CheckBox(
+            config.checkPreRelease, text.CheckPreRelease
+        )
+        checkUpdateEGContinuousCtrl1 = page2.CheckBox(
+            config.checkUpdateEGContinuous,
+            text.CheckUpdateContinuos1
+        )
+        checkUpdateEGIntervalCtrl = page2.SpinIntCtrl(
+            config.checkUpdateEGInterval, min=1, max=24  # >24 = BufferOverflow
+        )
+        checkUpdateEGContinuousCtrl2 = page2.StaticText(
+            text.CheckUpdateContinuos2
+        )
+
+        checkUpdatePluginOnStartCtrl = page2.CheckBox(
+            config.checkUpdatePluginOnStart, text.CheckUpdateOnStart
+        )
+        checkUpdatePluginContinuousCtrl1 = page2.CheckBox(
+            config.checkUpdatePluginContinuous,
+            text.CheckUpdateContinuos1
+        )
+        checkUpdatePluginIntervalCtrl = page2.SpinIntCtrl(
+            config.checkUpdatePluginInterval, min=1, max=24
+        )
+        checkUpdatePluginContinuousCtrl2 = page2.StaticText(
+            text.CheckUpdateContinuos2
+        )
+
+        def OnCheckContinuousEG(event):
+            if event.IsChecked():
+                eg.checkUpdate.StartContinuous("EG")
+            else:
+                eg.checkUpdate.StopContinuous("EG")
+        checkUpdateEGContinuousCtrl1.Bind(wx.EVT_CHECKBOX, OnCheckContinuousEG)
+
+        def OnCheckContinuousPlugins(event):
+            if event.IsChecked():
+                eg.checkUpdate.StartContinuous("Plugins")
+            else:
+                eg.checkUpdate.StopContinuous("Plugins")
+        checkUpdatePluginContinuousCtrl1.Bind(
+            wx.EVT_CHECKBOX, OnCheckContinuousPlugins
+        )
+
+        def OnIntervalChangeEG(event):
+            if checkUpdateEGContinuousCtrl1.IsChecked():
+                eg.config.checkUpdateEGInterval = long(event.GetString())
+                wx.CallAfter(eg.checkUpdate.StartContinuous, "EG")
+        checkUpdateEGIntervalCtrl.Bind(wx.EVT_TEXT, OnIntervalChangeEG)
+
+        def OnIntervalChangePlugins(event):
+            if checkUpdatePluginContinuousCtrl1.IsChecked():
+                eg.config.checkUpdatePluginInterval = long(event.GetString())
+                wx.CallAfter(eg.checkUpdate.StartContinuous, "Plugins")
+        checkUpdatePluginIntervalCtrl.Bind(wx.EVT_TEXT, OnIntervalChangePlugins)
+
+        # standard buttons
+
         buttonRow = eg.ButtonRow(self, (wx.ID_OK, wx.ID_CANCEL))
 
         # construction of the layout with sizers
@@ -172,8 +235,6 @@ class OptionsDialog(eg.TaskletDialog):
         startGroupSizer.AddMany(
             (
                 (startWithWindowsCtrl, 0, flags),
-                (checkUpdateCtrl, 0, flags),
-                (checkPreReleaseCtrl, 0, flags | wx.LEFT, INDENT_WIDTH),
                 (confirmDeleteCtrl, 0, flags),
                 (showTrayIconCtrl, 0, flags),
                 (hideOnCloseCtrl, 0, flags),
@@ -198,6 +259,37 @@ class OptionsDialog(eg.TaskletDialog):
         page1.SetSizer(page1Sizer)
         page1.SetAutoLayout(True)
 
+        updIntervalEGSizer = eg.HBoxSizer(
+            (checkUpdateEGContinuousCtrl1, 0, flags),
+            (checkUpdateEGIntervalCtrl, 0, flags),
+            (checkUpdateEGContinuousCtrl2, 0, flags | wx.LEFT, 5),
+        )
+        updIntervalPluginsSizer = eg.HBoxSizer(
+            (checkUpdatePluginContinuousCtrl1, 0, flags),
+            (checkUpdatePluginIntervalCtrl, 0, flags),
+            (checkUpdatePluginContinuousCtrl2, 0, flags | wx.LEFT, 5),
+        )
+        flags = flags | wx.ALL
+        updEGSizer = page2.VStaticBoxSizer(
+            text.UpdateEGGroup,
+            (checkUpdateEGOnStartCtrl, 0, flags, 5),
+            (updIntervalEGSizer, 0, flags, 5),
+            (checkPreReleaseCtrl, 0, flags, 5)
+        )
+        updPluginsSizer = page2.VStaticBoxSizer(
+            text.UpdatePluginsGroup,
+            (checkUpdatePluginOnStartCtrl, 0, flags, 5),
+            (updIntervalPluginsSizer, 0, flags, 5)
+        )
+        page2Sizer = eg.VBoxSizer(
+            ((15, 7), 0),
+            (updEGSizer, 0, wx.EXPAND | wx.ALL, 5),
+            ((15, 7), 0),
+            (updPluginsSizer, 0, wx.EXPAND | wx.ALL, 5),
+        )
+        page2.SetSizer(page2Sizer)
+        page2.SetAutoLayout(True)
+
         sizer = eg.VBoxSizer(
             (notebook, 1, wx.EXPAND | wx.TOP | wx.LEFT | wx.RIGHT, 5),
             (buttonRow.sizer, 0, wx.EXPAND),
@@ -209,7 +301,12 @@ class OptionsDialog(eg.TaskletDialog):
         oldLanguage = config.language
 
         while self.Affirmed():
-            config.checkUpdate = checkUpdateCtrl.GetValue()
+            config.checkUpdateEGOnStart = checkUpdateEGOnStartCtrl.GetValue()
+            config.checkUpdateEGContinuous = checkUpdateEGContinuousCtrl1.GetValue()
+            config.checkUpdateEGInterval = checkUpdateEGIntervalCtrl.GetValue()
+            config.checkUpdatePluginOnStart = checkUpdatePluginOnStartCtrl.GetValue()
+            config.checkUpdateEGContinuous = checkUpdatePluginContinuousCtrl1.GetValue()
+            config.checkUpdatePluginInterval = checkUpdatePluginIntervalCtrl.GetValue()
             config.checkPreRelease = checkPreReleaseCtrl.GetValue()
             config.confirmDelete = confirmDeleteCtrl.GetValue()
             config.showTrayIcon = showTrayIconCtrl.GetValue()
@@ -260,5 +357,8 @@ class OptionsDialog(eg.TaskletDialog):
     def UpdateFont(self, val):
         font = eg.document.frame.treeCtrl.GetFont()
         if val:
-            font = wx.Font(font.GetPointSize(), wx.DEFAULT, wx.NORMAL, wx.NORMAL, False, "Courier New")
+            font = wx.Font(
+                font.GetPointSize(), wx.DEFAULT, wx.NORMAL,
+                wx.NORMAL, False, "Courier New"
+            )
         wx.CallAfter(eg.document.frame.logCtrl.SetFont, font)

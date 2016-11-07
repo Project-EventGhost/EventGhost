@@ -77,6 +77,8 @@ class DynamicModule(object):
                 eg.Init.ImportAll()
             except:
                 eg.PrintDebugNotice(sys.exc_info()[1])
+
+        eg.checkUpdate = eg.CheckUpdate()
         eg.Tasklet(eg.app.MainLoop)().run()
         stackless.run()
 

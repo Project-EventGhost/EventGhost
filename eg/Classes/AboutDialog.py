@@ -171,6 +171,7 @@ class SpecialThanksPanel(HtmlPanel):
         output = StringIO()
         write = output.write
         write('<TABLE COLS=2 WIDTH="100%">')
+        SPECIAL_THANKS_DATA[0][2] = GetPluginAuthors()
         for group, cols, persons in SPECIAL_THANKS_DATA:
             write('<TR><TD COLSPAN="2" ALIGN=CENTER><h5><i><u>')
             write(group)
@@ -320,7 +321,7 @@ class ChangelogPanel(HtmlPanel):
         eg.configDir to speed up loading.
         """
         text = eg.Utils.DecodeMarkdown(text)
-        changelogDatFile = open(changelogDatPath, "wt")
+        changelogDatFile = open(changelogDatPath, "w")
         changelogDatFile.write(digest + "\n")
         changelogDatFile.write(text)
         changelogDatFile.close()
@@ -351,7 +352,7 @@ def GetPluginAuthors():
     containing all plugin names of the author.
     """
     pluginAuthors = {}
-    for pluginInfo in eg.pluginManager.database.itervalues():
+    for pluginInfo in eg.pluginManager.GetInstalledInfoList():
         pluginName = pluginInfo.name.replace(" ", "&nbsp;")
         for part in re.split("\s*(?:&|,|\+|/|and)\s*", pluginInfo.author):
             author = part.strip()
@@ -392,7 +393,7 @@ def GetRegistryValue(key, value):
     return val
 
 SPECIAL_THANKS_DATA = (
-    ("Plugin Developers:", 2, GetPluginAuthors()),
+    ["Plugin Developers:", 2, list()],
     (
         "Translators:",
         2,

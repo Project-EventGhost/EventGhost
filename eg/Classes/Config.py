@@ -46,17 +46,28 @@ class Section:
 
 
 class Config(Section):
+    autoUpdateEG = False
+    autoUpdateEGPreRelease = False
+    autoUpdatePlugins = False
+    autoUpdatePluginsList = set()
     version = eg.Version.string
     language = GetClosestLanguage()
     autoloadFilePath = False
     checkUpdate = True
     checkPreRelease = False
+    checkUpdateEGContinuous = True
+    checkUpdateEGInterval = 7
+    checkUpdateEGOnStart = True
+    checkUpdatePluginContinuous = True
+    checkUpdatePluginInterval = 7
+    checkUpdatePluginOnStart = True
     colourPickerCustomColours = [(-1, -1, -1, 255) for n in range(16)]
     confirmDelete = True
     defaultThreadStartTimeout = 5.00
     hideOnClose = False
     hideOnStartup = False
-    lastUpdateCheckDate = None
+    lastUpdateCheckDateEG = None
+    lastUpdateCheckDatePlugins = None
     lastUpdateCheckVersion = None
     limitMemory = False
     limitMemorySize = 8

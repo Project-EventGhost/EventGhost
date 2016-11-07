@@ -77,3 +77,10 @@ class Exceptions:
 
     class SerialOpenFailed(ProgramError):
         text = Text.SerialOpenFailed
+
+    class RegisterPluginException(Exception):
+        """
+        RegisterPlugin will raise this exception to interrupt the loading
+        of the plugin module file.
+        """
+        pass

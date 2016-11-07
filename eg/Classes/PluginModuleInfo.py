@@ -20,8 +20,8 @@ import os
 import sys
 from os.path import exists, join
 
-# Local imports
 import eg
+
 
 class PluginModuleInfo(object):
     """
@@ -31,22 +31,25 @@ class PluginModuleInfo(object):
     eg.RegisterPlugin call inside the plugin module. So it imports the main
     module, but stops the import immediately after the eg.RegisterPlugin call.
     """
-    name = u"Unknown Plugin"
-    description = u""
-    author = u"[unknown author]"
-    version = u"[unknown version]"
-    kind = u"other"
-    guid = ""
+    author = u""
     canMultiLoad = False
     createMacrosOnAdd = False
-    icon = eg.Icons.PLUGIN_ICON
-    url = None
-    englishName = None
-    englishDescription = None
-    path = None
-    pluginName = None
+    description = u""
+    download_url = ""
+    englishDescription = u""
+    englishName = u""
+    guid = ""
     hardwareId = ""
-    valid = False
+    icon = eg.Icons.PLUGIN_ICON
+    kind = "other"
+    name = u""
+    path = ""
+    pluginName = u""
+    status = "unknown"
+    url = ""
+    version = ""
+    versionAvailable = ""
+    date_added = None
 
     def __init__(self, path):
         self.description = self.path = path
@@ -62,11 +65,16 @@ class PluginModuleInfo(object):
             if moduleName in sys.modules:
                 del sys.modules[moduleName]
             __import__(moduleName, None, None, [''])
-        except RegisterPluginException:
+        except eg.Exceptions.RegisterPluginException:
             # It is expected that the loading will raise
             # RegisterPluginException because eg.RegisterPlugin() is called
             # inside the module
-            self.valid = True
+            self.status = "installed"
+        except ImportError:
+            if self.pluginName.startswith("repo:"):
+                self.status = "available"
+            elif eg.debugLevel:
+                eg.PrintTraceback(eg.text.Error.pluginLoadError % self.path)
         except:
             if eg.debugLevel:
                 eg.PrintTraceback(eg.text.Error.pluginLoadError % self.path)
@@ -84,25 +92,30 @@ class PluginModuleInfo(object):
 
     def RegisterPlugin(
         self,
-        name = None,
-        description = None,
-        kind = "other",
-        author = "[unknown author]",
-        version = "[unknown version]",
-        icon = None,
-        canMultiLoad = False,
-        createMacrosOnAdd = False,
-        url = None,
-        help = None,
-        guid = "",
-        hardwareId = "",
-        **kwargs
+        author=u"",
+        canMultiLoad=False,
+        createMacrosOnAdd=False,
+        description=u"",
+        guid="",
+        hardwareId="",
+        help=u"",
+        icon=None,
+        kind=u"other",
+        name=u"",
+        url="",
+        version="",
     ):
-        if name is None:
+        self.versionAvailable = ""
+        self.download_url = self.path
+        self.status = "unknown"
+        self.download_url = None
+        self.date_added = None
+
+        if not name:
             name = self.pluginName
-        if description is None:
+        if not description:
             description = name
-        if help is not None:
+        if help:
             help = "\n".join([s.strip() for s in help.splitlines()])
             help = help.replace("\n\n", "<p>")
             description += "\n\n<p>" + help
@@ -121,9 +134,9 @@ class PluginModuleInfo(object):
         if not guid:
             eg.PrintDebugNotice("missing guid in plugin: %s" % self.path)
             self.guid = self.pluginName
-        self.hardwareId = hardwareId.upper()
+        self.hardwareId = hardwareId.upper() if hardwareId else ""
         # get the icon if any
-        if icon is not None:
+        if icon:
             self.icon = eg.Icons.StringIcon(icon)
         else:
             iconPath = join(self.path, "icon.png")
@@ -138,12 +151,4 @@ class PluginModuleInfo(object):
 
         # we are done with this plugin module, so we can interrupt further
         # processing by raising RegisterPluginException
-        raise RegisterPluginException
-
-
-class RegisterPluginException(Exception):
-    """
-    RegisterPlugin will raise this exception to interrupt the loading
-    of the plugin module file.
-    """
-    pass
+        raise eg.Exceptions.RegisterPluginException
