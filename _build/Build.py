@@ -48,7 +48,9 @@ class MyBuilder(builder.Builder):
         "pkg_resources",
         "pythoncom",
         "pywin32",
+        "requests",
         "win32com",
+        "xmltodict",
         "wx",
     ]
 

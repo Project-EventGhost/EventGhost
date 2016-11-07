@@ -186,7 +186,7 @@ def WritePluginList(filepath):
     ]
     numPlugins = 0
     groups = {}
-    for info in eg.pluginManager.GetPluginInfoList():
+    for info in eg.pluginManager.GetInstalledInfoList():
         if os.path.exists(join(info.path, "noinclude")):
             continue
         if info.kind in groups:

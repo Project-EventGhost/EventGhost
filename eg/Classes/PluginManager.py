@@ -219,7 +219,6 @@ class PluginCache(object):
         except KeyError:
             for guid, info in self.local_cache.iteritems():
                 if info.pluginName == ident:
-                # if info.pluginName == ident:
                     return info
         return None
 
