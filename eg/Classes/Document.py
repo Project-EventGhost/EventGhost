@@ -188,13 +188,13 @@ class Document(object):
         result = eg.AddPluginDialog.GetModalResult(self.frame)
         if result:
             info = result[0]
-            if not os.path.isdir(info.path):
+            if info.status in [
+                "new", "not installed", "available", "upgradeable"
+            ]:
                 # The plugin info comes from online repository, so
                 # first install (download) the plugin.
                 eg.pluginManager.InstallPlugin(info.guid, quiet=True)
-                info_bak = info
                 info = eg.pluginManager.GetPluginInfo(info.guid)
-                print info
             try:
                 eg.UndoHandler.NewPlugin(self).Do(info)
             except eg.Exceptions.PluginLoadError:

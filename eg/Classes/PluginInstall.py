@@ -158,6 +158,7 @@ class PluginInstall(object):
             if guid in eg.pluginManager.plugins.local_cache:
                 # a plugin with same GUID already exists
                 info = eg.pluginManager.GetPluginInfo(guid)
+                # TODO: stop the plugin before uninstall?
                 if info.path.lower().startswith(eg.localPluginDir.lower()):
                     # plugin with same GUID exists in user dir, so delete
                     # the folder first
