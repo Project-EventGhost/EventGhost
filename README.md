@@ -1,5 +1,7 @@
-# EventGhost
-| ![EventGhost Logo](https://github.com/EventGhost/EventGhost/raw/master/images/logo.png) | | | [![Build Status](https://ci.appveyor.com/api/projects/status/3wf2sdw8bf4i02b9/branch/master?svg=true)](https://ci.appveyor.com/project/blackwind/eventghost/build/artifacts)   [![Slack](https://eventghost-slackin.herokuapp.com/badge.svg)](https://eventghost-slackin.herokuapp.com/)
+
+![EventGhost Logo](https://github.com/EventGhost/EventGhost/raw/master/images/logo.png)
+# EventGhost   [![Build Status](https://ci.appveyor.com/api/projects/status/3wf2sdw8bf4i02b9/branch/master?svg=true)](https://ci.appveyor.com/project/blackwind/eventghost/build/artifacts)   
+[![Slack](https://eventghost-slackin.herokuapp.com/badge.svg)](https://eventghost-slackin.herokuapp.com/)
 |
 
 
