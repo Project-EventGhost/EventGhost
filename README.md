@@ -24,6 +24,7 @@ Please note that this project is released with a Contributor [Code of Conduct](c
 
 If you'd like to contribute to this project please read the [contributing](CONTRIBUTING.md) guide.
 
+|
 
 License
 -------
