@@ -7,10 +7,9 @@
 
 Control your HTPC with an infrared remote, move your mouse cursor with your gamepad, communicate with another instance of EventGhost over your network, send yourself an email when your website goes down, turn on your lights when the sun sets... with the right plugin, the right macro, and a little ingenuity, the sky's the limit!
 
----
-
 
 |
+
 Found a bug?
 ------------
 
@@ -18,6 +17,7 @@ Great (ehm, well, of course not good :) ). Before you file an issue, [please rea
 
 
 |
+
 Contributing
 ------------
 
