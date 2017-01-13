@@ -39,7 +39,7 @@ install:
   - cmd: pip install https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl
 
 build_script:
-  - cmd: python.exe _build\\Build.py --build --package
+  - cmd: python.exe -d _build\\Build.py --build --package
   - cmd: echo "##################------------------####################"
 
 after_build:
