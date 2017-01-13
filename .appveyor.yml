@@ -33,8 +33,8 @@ install:
   - cmd: pip install pillow==3.1.1
   - cmd: pip install py2exe_py2==0.6.9
   - cmd: pip install pycrypto==2.6.1
-  # - cmd: pip install https://eventghost.github.io/dist/dependencies/pywin32-220-cp27-none-win32.whl
-  - cmd: pip install pypiwin32==219
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/pywin32-220-cp27-none-win32.whl
+  #- cmd: pip install pypiwin32==219
   - cmd: pip install sphinx==1.3.5
   - cmd: pip install https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl
 
