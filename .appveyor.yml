@@ -38,8 +38,10 @@ install:
   - cmd: pip install sphinx==1.3.5
   - cmd: pip install https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl
 
+build: off
+
 test_script:
-  - cmd: python.exe -d _build\\Build.py --build --package
+  - cmd: python.exe _build\\Build.py --build --package
   - cmd: echo "##################------------------####################"
 
 after_test:
