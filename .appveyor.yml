@@ -8,6 +8,7 @@ environment:
 #  - '%PYTHON%\Lib\site-packages'
  
 install:
+  - cmd: set
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
   # - enable-rdp.ps1
     
@@ -45,6 +46,7 @@ install:
 build: off
 
 after_test:
+  - cmd: set
   - "python.exe _build\\Build.py --build --package"
   # - dir _build\output\*.exe /B > setup-exe.txt
   # - set /P setup-exe= < setup-exe.txt
