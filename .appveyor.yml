@@ -2,10 +2,10 @@ version: '{build}-{branch}'
 
 environment:
   matrix:
-    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\Python27"
     
 cache:
-  - '%PYTHON%\Lib\site-packages'  -> requirements.txt
+  - C:\Python27\Lib\site-packages  -> requirements.txt
   # invalidate path/cache whenever appveyor.yml is changed.
   # - '%PYTHON%\Lib\site-packages'  -> appveyor.yml
 
