@@ -5,13 +5,13 @@ environment:
     - PYTHON: "C:\\Python27"
     
 cache:
-  - '%PYTHON%\Lib\site-packages'
+  #- '%PYTHON%\Lib\site-packages'
   # invalidate path/cache whenever appveyor.yml is changed.
   # - '%PYTHON%\Lib\site-packages'  -> appveyor.yml
   - '%USERPROFILE%\AppData\Local\pip\cache'
  
 install:
-  - cmd: set
+  # - cmd: set
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
   # - enable-rdp.ps1
     
@@ -50,7 +50,7 @@ install:
 build: off
 
 after_test:
-  - cmd: set
+  - cmd: echo "skipping build"
   #- "python.exe _build\\Build.py --build --package"
   # - dir _build\output\*.exe /B > setup-exe.txt
   # - set /P setup-exe= < setup-exe.txt
