@@ -57,3 +57,18 @@ after_test:
   
 artifacts:
   - path: "_build\\output\\*Setup.exe"
+
+deploy:
+    # Deploy to GitHub Releases
+  - provider: GitHub
+    auth_token: %GITHUB_TOKEN%
+    draft: false
+    prerelease: true
+    # artifact: /.*\.nupkg/           # upload all NuGet packages to release assets
+    # force_update: true
+    # tag: EventGhost_0.5.0-beta6
+    # release: EventGhost_0.5.0-beta6
+    description: 'put the changelog here'
+    on:
+      branch: master                # release from master branch only
+      appveyor_repo_tag: true       # deploy on tag push only
