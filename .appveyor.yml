@@ -76,7 +76,7 @@ deploy:
     # secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
     draft: true
     prerelease: true
-    artifact: "_build\\output\\*Setup.exe"
+    artifact: "*Setup.exe"
     force_update: true
     # tag: EventGhost_0.5.0-beta6
     # release: EventGhost_0.5.0-beta6
