@@ -62,9 +62,9 @@ artifacts:
 before_deploy:
   - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
   - cmd: set /P CHANGELOG=< tmp
-
-deploy:
   - cmd: "python.exe _build\\Build.py --release"
+
+#deploy:
     # Deploy to GitHub Releases
 #  - provider: GitHub
 #    auth_token: $(GITHUB_TOKEN)
