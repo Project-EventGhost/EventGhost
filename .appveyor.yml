@@ -51,31 +51,37 @@ build: off
 
 after_test:
   - cmd: "python.exe _build\\Build.py --build --package"
-  # - dir _build\output\*.exe /B > setup-exe.txt
-  # - set /P setup-exe= < setup-exe.txt
+  - dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
+  - set /P setup-exe= < _build\output\setup-exe.txt
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
   
 artifacts:
-  - path: "_build\\output\\*Setup.exe"
-  - path: "_build\\output\\CHANGELOG.*"
+  - path: "_build\\output\\$(setup-exe)"
+    name: $(setup-exe)
+
+  - path: "_build\\output\\CHANGELOG.bb"
+    name: "CHANGELOG.bb"
+
+  - path: "_build\\output\\CHANGELOG.md"
+    name: "CHANGELOG.md"
 
 before_deploy:
   - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
   - cmd: set /P CHANGELOG=< tmp
-  - cmd: "python.exe _build\\Build.py --release"
 
-#deploy:
+deploy:
     # Deploy to GitHub Releases
-#  - provider: GitHub
-#    auth_token: $(GITHUB_TOKEN)
-#    # secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
-#    draft: False
-#    prerelease: true
-#    artifact: "_build\\output\\*Setup.exe"
-#    force_update: true
-#    # tag: EventGhost_0.5.0-beta6
-#    # release: EventGhost_0.5.0-beta6
-#    description: $(CHANGELOG)
-#    on:
-#      #branch: master                # release from master branch only
-#      appveyor_repo_tag: true       # deploy on tag push only
+  - provider: GitHub
+    auth_token: $(GITHUB_TOKEN)
+    # secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
+    draft: true
+    prerelease: true
+    artifact: "_build\\output\\*Setup.exe"
+    force_update: true
+    # tag: EventGhost_0.5.0-beta6
+    # release: EventGhost_0.5.0-beta6
+    # description: $(CHANGELOG)
+    description: 'Put the contents of CHANGELOG.md here (from ** onwoards)'
+    on:
+      #branch: master                # release from master branch only
+      appveyor_repo_tag: true       # deploy on tag push only
