@@ -55,7 +55,7 @@ artifacts:
   - path: "_build\\output\\CHANGELOG.*"
 
 before_deploy:
-  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read(); print(txt.replace("\n","\\n"))" > tmp
+  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read(); print(txt.replace('\n','\\n'))" > tmp
   - cmd: set /P CHANGELOG=< tmp
 
 deploy:
