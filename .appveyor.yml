@@ -1,6 +1,6 @@
 # In AppVeyor's web config add an enviremont variable named GITHUB_TOKEN.
 # Set it to a token you've created on GitHub.
-# To deploy a release on GitHub with AppVeyor, create a tag on master.
+# To draft a release on GitHub with AppVeyor, create a tag on master.
 
 version: '{build}-{branch}'
 
@@ -8,16 +8,10 @@ environment:
   matrix:
     - PYTHON: "C:\\Python27"
     
-#cache:
-#  - '%PYTHON%\Lib\site-packages'
+cache:
+  - %PYTHON%\Lib\site-packages
  
 install:
-  - cmd: set APPVEYOR_PROJECT_ID
-  - cmd: set APPVEYOR_BUILD_ID
-  - cmd: set APPVEYOR_PROJECT_SLUG
-  - cmd: set APPVEYOR_JOB_ID
-  - cmd: set APPVEYOR_JOB_NAME
-
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
   # - enable-rdp.ps1
     
@@ -34,23 +28,22 @@ install:
   - cmd: stackless-setup.msi /quiet /passive /qn /norestart
 
   - cmd: pip install commonmark==0.7.2
-  
+  - cmd: pip install future==0.16.0
+  - cmd: pip install pillow==3.4.2
+  - cmd: pip install py2exe_py2==0.6.9
+  - cmd: pip install sphinx==1.4.8
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/ctypeslib-0.5.6-cp27-none-any.whl
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/pycrypto-2.6.1-cp27-none-win32.whl
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/pywin32-220-cp27-none-win32.whl
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl
+
+  # jinja2 >= 2.9 has an async module which py2exe has problems with (build of eg will fail)
+  - cmd: pip install jinja2==2.8.1
+
   # comtypes==1.1.3
   #   Could not find a version that satisfies the requirement comtypes==1.1.3 (from versions: 0.6.4, 1.0.0, 1.1.0, 1.1.1, 1.1.3.post2)
   #   No matching distribution found for comtypes==1.1.3
   - cmd: pip install https://github.com/enthought/comtypes/archive/1.1.3.zip
-  
-  - cmd: pip install https://eventghost.github.io/dist/dependencies/ctypeslib-0.5.6-cp27-none-any.whl
-  - cmd: pip install future==0.16.0
-  - cmd: pip install pillow==3.4.2
-  - cmd: pip install py2exe_py2==0.6.9
-  - cmd: pip install https://eventghost.github.io/dist/dependencies/pycrypto-2.6.1-cp27-none-win32.whl
-  - cmd: pip install https://eventghost.github.io/dist/dependencies/pywin32-220-cp27-none-win32.whl
-  
-  # jinja2 >= 2.9 has an async module which py2exe has problems with (build of eg will fail)
-  - cmd: pip install jinja2==2.8.1
-  - cmd: pip install sphinx==1.4.8
-  - cmd: pip install https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl
 
 build: off
 
@@ -61,24 +54,18 @@ after_test:
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
   
 artifacts:
-  - path: "_build\\output\\$(setup-exe)"
-    #name: $(setup-exe)
-
+  - path: _build\output\$(setup-exe)
   - path: _build\output\CHANGELOG.bb
-    #name: "CHANGELOG.bb"
+  - path: _build\output\CHANGELOG.md
 
-  - path: "_build\\output\\CHANGELOG.md"
-    #name: "CHANGELOG.md"
-
-before_deploy:
-  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
-  - cmd: set /P CHANGELOG=< tmp
+#before_deploy:
+#  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
+#  - cmd: set /P CHANGELOG=< tmp
 
 deploy:
     # Deploy to GitHub Releases
   - provider: GitHub
     auth_token: $(GITHUB_TOKEN)
-    # secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
     draft: true
     prerelease: true
     artifact: _build\output\$(setup-exe)
@@ -86,7 +73,7 @@ deploy:
     # tag: EventGhost_0.5.0-beta6
     # release: EventGhost_0.5.0-beta6
     # description: $(CHANGELOG)
-    description: 'Put the contents of [CHANGELOG.md](https://ci.appveyor.com/api/buildjobs/$(APPVEYOR_JOB_ID)/artifacts/_build%2Foutput%2FCHANGELOG.md) here (from ** onwoards)'
+    description: 'Put the contents of [CHANGELOG.md](https://ci.appveyor.com/api/buildjobs/$(APPVEYOR_JOB_ID)/artifacts/_build%2Foutput%2FCHANGELOG.md) here (from first ** onwards)'
     on:
       #branch: master                # release from master branch only
       appveyor_repo_tag: true       # deploy on tag push only
