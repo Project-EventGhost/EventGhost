@@ -55,7 +55,7 @@ artifacts:
   - path: "_build\\output\\CHANGELOG.*"
 
 before_deploy:
-  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read(); print(txt.replace('\n','\\n'))" > tmp
+  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
   - cmd: set /P CHANGELOG=< tmp
 
 deploy:
@@ -65,7 +65,7 @@ deploy:
     # secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
     draft: False
     prerelease: true
-    artifact: "*Setup.exe"
+    artifact: "_build\\output\\*Setup.exe"
     force_update: true
     # tag: EventGhost_0.5.0-beta6
     # release: EventGhost_0.5.0-beta6
