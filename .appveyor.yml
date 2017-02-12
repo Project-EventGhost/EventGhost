@@ -6,10 +6,10 @@ version: '{build}-{branch}'
 
 environment:
   matrix:
-    - PYTHON: "C:\\Python27"
+    - PYTHON: 'C:\\Python27'
     
 cache:
-  - %PYTHON%\Lib\site-packages
+  - '%PYTHON%\Lib\site-packages'
  
 install:
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
