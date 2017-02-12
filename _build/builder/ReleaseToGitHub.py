@@ -61,6 +61,10 @@ class ReleaseToGitHub(builder.Task):
         chglogFile = "CHANGELOG.md"
         chglogPath = join(buildSetup.outputDir, chglogFile)
 
+        print "user",user
+        print "repo", repo
+        return
+
         print "reading changelog"
         try:
             f = open(chglogPath, 'r')
