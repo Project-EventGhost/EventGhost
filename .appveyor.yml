@@ -10,7 +10,8 @@ environment:
     
 cache:
   - '%PYTHON%\Lib\site-packages'
- 
+  - 'installers'
+
 install:
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
   # - enable-rdp.ps1
@@ -21,11 +22,11 @@ install:
   # Microsoft Visual C++ Redistributable 2008 (version min: 9.0.21022.8)
   # - cinst vcredist2008
   
-  - ps: Start-FileDownload "http://www.innosetup.com/download.php/is-unicode.exe" -Timeout 60000 -FileName "is-unicode.exe"
-  - cmd: is-unicode.exe /SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS
+  - ps: Start-FileDownload "http://www.innosetup.com/download.php/is-unicode.exe" -Timeout 60000 -FileName "installers\is-unicode.exe"
+  - cmd: installers\is-unicode.exe /SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS
 
-  - ps: Start-FileDownload "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi" -Timeout 60000 -FileName "stackless-setup.msi"
-  - cmd: stackless-setup.msi /quiet /passive /qn /norestart
+  - ps: Start-FileDownload "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi" -Timeout 60000 -FileName "installers\stackless-setup.msi"
+  - cmd: installers\stackless-setup.msi /quiet /passive /qn /norestart
 
   - cmd: pip install commonmark==0.7.2
   - cmd: pip install future==0.16.0
@@ -55,8 +56,8 @@ after_test:
   
 artifacts:
   - path: _build\output\$(setup-exe)
-  - path: _build\output\CHANGELOG.bb
-  - path: _build\output\CHANGELOG.md
+  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
+  - path: _build\output\CHANGELOG_THIS_RELEASE.md
 
 #before_deploy:
 #  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
@@ -73,7 +74,7 @@ deploy:
     # tag: EventGhost_0.5.0-beta6
     # release: EventGhost_0.5.0-beta6
     # description: $(CHANGELOG)
-    description: 'Put the contents of [CHANGELOG.md](https://ci.appveyor.com/api/buildjobs/$(APPVEYOR_JOB_ID)/artifacts/_build%2Foutput%2FCHANGELOG.md) here (from first ** onwards)'
+    description: 'Put the contents of [CHANGELOG_THIS_RELEASE.md](https://ci.appveyor.com/api/buildjobs/$(APPVEYOR_JOB_ID)/artifacts/_build%2Foutput%CHANGELOG_THIS_RELEASE.md) here'
     on:
       #branch: master                # release from master branch only
       appveyor_repo_tag: true       # deploy on tag push only
