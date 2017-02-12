@@ -18,34 +18,34 @@ install:
   # - cinst vcredist2008
   
   - ps: Start-FileDownload "http://www.innosetup.com/download.php/is-unicode.exe" -Timeout 60000 -FileName "is-unicode.exe"
-  - is-unicode.exe /SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS
+  - cmd: is-unicode.exe /SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS
 
   - ps: Start-FileDownload "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi" -Timeout 60000 -FileName "stackless-setup.msi"
-  - stackless-setup.msi /quiet /passive /qn /norestart
+  - cmd: stackless-setup.msi /quiet /passive /qn /norestart
 
-  - pip install commonmark==0.7.2
+  - cmd: pip install commonmark==0.7.2
   
   # comtypes==1.1.3
   #   Could not find a version that satisfies the requirement comtypes==1.1.3 (from versions: 0.6.4, 1.0.0, 1.1.0, 1.1.1, 1.1.3.post2)
   #   No matching distribution found for comtypes==1.1.3
-  - pip install https://github.com/enthought/comtypes/archive/1.1.3.zip
+  - cmd: pip install https://github.com/enthought/comtypes/archive/1.1.3.zip
   
-  - pip install https://eventghost.github.io/dist/dependencies/ctypeslib-0.5.6-cp27-none-any.whl
-  - pip install future==0.16.0
-  - pip install pillow==3.4.2
-  - pip install py2exe_py2==0.6.9
-  - pip install https://eventghost.github.io/dist/dependencies/pycrypto-2.6.1-cp27-none-win32.whl
-  - pip install https://eventghost.github.io/dist/dependencies/pywin32-220-cp27-none-win32.whl
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/ctypeslib-0.5.6-cp27-none-any.whl
+  - cmd: pip install future==0.16.0
+  - cmd: pip install pillow==3.4.2
+  - cmd: pip install py2exe_py2==0.6.9
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/pycrypto-2.6.1-cp27-none-win32.whl
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/pywin32-220-cp27-none-win32.whl
   
   # jinja2 >= 2.9 has an async module which py2exe has problems with (build of eg will fail)
-  - pip install jinja2==2.8.1
-  - pip install sphinx==1.4.8
-  - pip install https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl
+  - cmd: pip install jinja2==2.8.1
+  - cmd: pip install sphinx==1.4.8
+  - cmd: pip install https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl
 
 build: off
 
 after_test:
-  - "python.exe _build\\Build.py --build --package"
+  - cmd: "python.exe _build\\Build.py --build --package"
   # - dir _build\output\*.exe /B > setup-exe.txt
   # - set /P setup-exe= < setup-exe.txt
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
@@ -54,18 +54,22 @@ artifacts:
   - path: "_build\\output\\*Setup.exe"
   - path: "_build\\output\\CHANGELOG.*"
 
+before_deploy:
+  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read(); print(repr(txt)[1:-1])" > tmp
+  - cmd: set /P CHANGELOG=< tmp
+
 deploy:
     # Deploy to GitHub Releases
   - provider: GitHub
-    auth_token:
-      secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
+    auth_token: $(GITHUB_TOKEN)
+    # secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
     draft: true
     prerelease: true
-    artifact: "*Setup.exe"
+    artifact: '*Setup.exe'
     # force_update: true
     # tag: EventGhost_0.5.0-beta6
     # release: EventGhost_0.5.0-beta6
-    description: 'put the changelog here'
+    description: $(CHANGELOG)
     on:
       #branch: master                # release from master branch only
       appveyor_repo_tag: true       # deploy on tag push only
