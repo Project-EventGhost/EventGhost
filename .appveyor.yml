@@ -12,6 +12,12 @@ environment:
 #  - '%PYTHON%\Lib\site-packages'
  
 install:
+  - cmd: set APPVEYOR_PROJECT_ID
+  - cmd: set APPVEYOR_BUILD_ID
+  - cmd: set APPVEYOR_PROJECT_SLUG
+  - cmd: set APPVEYOR_JOB_ID
+  - cmd: set APPVEYOR_JOB_NAME
+
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
   # - enable-rdp.ps1
     
@@ -49,9 +55,9 @@ install:
 build: off
 
 after_test:
-  - cmd: "python.exe _build\\Build.py --build --package"
-  - dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
-  - set /P setup-exe= < _build\output\setup-exe.txt
+  - cmd: python.exe _build\\Build.py --build --package
+  - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
+  - cmd: set /P setup-exe= < _build\output\setup-exe.txt
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
   
 artifacts:
