@@ -1,7 +1,6 @@
 # In AppVeyor's web config add an enviremont variable named GITHUB_TOKEN.
 # Set it to a token you've created on GitHub.
 # To deploy a release on GitHub with AppVeyor, create a tag on master.
-# TODO: use the tag name as release name
 
 version: '{build}-{branch}'
 
@@ -9,8 +8,8 @@ environment:
   matrix:
     - PYTHON: "C:\\Python27"
     
-cache:
-  - '%PYTHON%\Lib\site-packages'
+#cache:
+#  - '%PYTHON%\Lib\site-packages'
  
 install:
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
@@ -57,13 +56,13 @@ after_test:
   
 artifacts:
   - path: "_build\\output\\$(setup-exe)"
-    name: $(setup-exe)
+    #name: $(setup-exe)
 
   - path: "_build\\output\\CHANGELOG.bb"
-    name: "CHANGELOG.bb"
+    #name: "CHANGELOG.bb"
 
   - path: "_build\\output\\CHANGELOG.md"
-    name: "CHANGELOG.md"
+    #name: "CHANGELOG.md"
 
 before_deploy:
   - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
@@ -76,7 +75,7 @@ deploy:
     # secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
     draft: true
     prerelease: true
-    artifact: "*Setup.exe"
+    artifact: "_build\\output\\*Setup.exe"
     force_update: true
     # tag: EventGhost_0.5.0-beta6
     # release: EventGhost_0.5.0-beta6
