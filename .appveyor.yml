@@ -66,5 +66,5 @@ deploy:
     # release: EventGhost_0.5.0-beta6
     description: 'put the changelog here'
     on:
-      branch: master                # release from master branch only
+      #branch: master                # release from master branch only
       appveyor_repo_tag: true       # deploy on tag push only
