@@ -20,7 +20,7 @@ install:
   
   # Microsoft Visual C++ Redistributable 2008 (version min: 9.0.21022.8)
   # - cinst vcredist2008
-
+  - cmd: echo off
   - cmd: if not exist _build\installers md _build\installers
 
   - ps: Start-FileDownload "http://www.innosetup.com/download.php/is-unicode.exe" -Timeout 60000 -FileName "_build\installers\is-unicode.exe"
