@@ -24,7 +24,8 @@ install:
   # - cinst vcredist2008
 
   - cmd: if not exist _build\installers md _build\installers
-
+  - cmd: taskkill /F /IM python.exe
+  
   # --------------Downloads and Installs--------------
   - ps: |
       $BuildFolder = $Env:APPVEYOR_BUILD_FOLDER + "\_build\installers\"
