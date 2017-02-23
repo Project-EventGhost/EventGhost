@@ -38,9 +38,8 @@ install:
         $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
         Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       }
-      & {
-          $InnoInstaller "/SP" "/VERYSILENT" "/SUPPRESSMSGBOXES" "/NORESTART" "/RESTARTAPPLICATIONS" "/NOICONS"
-      }
+      & $InnoInstaller "/SP" "/VERYSILENT" "/SUPPRESSMSGBOXES" "/NORESTART" "/RESTARTAPPLICATIONS" "/NOICONS"
+      
       " "
       "----- Installing Stackless Python 2.7 x32 ------"
       " "
