@@ -50,7 +50,7 @@ install:
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
 
       }
-      & $PythonInstaller "/quiet" "/passive" "/qn" "/norestart"
+      & $PythonInstaller "/quiet" "/passive" "/qn" "/norestart" "/lx" "pylog.txt"
 
       $WXInstaller = $BuildFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
       If ((Test-Path $WXInstaller) -eq $False) {
@@ -141,6 +141,7 @@ artifacts:
   - path: _build\output\$(setup-exe)
   - path: _build\output\CHANGELOG_THIS_RELEASE.bb
   - path: _build\output\CHANGELOG_THIS_RELEASE.md
+  - path: pylog.txt
 
 #before_deploy:
 #  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
