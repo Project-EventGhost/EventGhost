@@ -39,7 +39,6 @@ install:
         Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       }
       & {
-          taskkill "/F" "/IM" "python.exe";
           $InnoInstaller "/SP" "/VERYSILENT" "/SUPPRESSMSGBOXES" "/NORESTART" "/RESTARTAPPLICATIONS" "/NOICONS"
       }
       " "
@@ -52,7 +51,10 @@ install:
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
 
       }
-      & $PythonInstaller "/quiet" "/passive" "/qn" "/norestart" "/lx" "pylog.txt"
+      & {
+        taskkill "/F" "/IM" "python.exe";
+        $PythonInstaller "/quiet" "/passive" "/qn" "/norestart" "/lx" "pylog.txt"
+      }
 
       $WXInstaller = $BuildFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
       If ((Test-Path $WXInstaller) -eq $False) {
