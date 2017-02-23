@@ -39,7 +39,7 @@ install:
         Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       }
       & {
-          taskkill "/F" "/IM" "python.exe"
+          taskkill "/F" "/IM" "python.exe";
           $InnoInstaller "/SP" "/VERYSILENT" "/SUPPRESSMSGBOXES" "/NORESTART" "/RESTARTAPPLICATIONS" "/NOICONS"
       }
       " "
