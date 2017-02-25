@@ -37,9 +37,9 @@ install:
       " "
       "----- Installing Stackless Python 2.7 x32 ------"
       " "
-      $python -c "import sys; print(sys.version)"
+      python -c "import sys; print(sys.version)"
 
-      PythonInstaller = $BuildFolder + "stackless-setup.msi"
+      $PythonInstaller = $BuildFolder + "stackless-setup.msi"
       If ((Test-Path $PythonInstaller) -eq $False) {
 
         $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
