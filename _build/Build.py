@@ -19,7 +19,8 @@
 """
 This script creates the EventGhost setup installer.
 """
-
+import sys
+print sys.version
 from os.path import dirname, exists, join
 
 # Local imports

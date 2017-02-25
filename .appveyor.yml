@@ -143,9 +143,9 @@ after_test:
   - cmd: python -c "import sys; print(sys.version)"
   - cmd: dir c:\Python27\lib
   - cmd: set PATH
-#  - cmd: python.exe _build\\Build.py --build --package
-#  - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
-#  - cmd: set /P setup-exe= < _build\output\setup-exe.txt
+  - cmd: python.exe _build\\Build.py --build --package
+  - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
+  - cmd: set /P setup-exe= < _build\output\setup-exe.txt
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
 
 artifacts:
