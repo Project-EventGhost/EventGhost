@@ -10,10 +10,10 @@ matrix:
 environment:
   PYTHON: 'C:\Python27'
 
-#cache:
-#  - '%PYTHON%\Lib\site-packages'
-#  - '%PYTHON%\Scripts'
-#  - '%APPVEYOR_BUILD_FOLDER%\_build\installers\'
+cache:
+  - '%PYTHON%\Lib\site-packages'
+  - '%PYTHON%\Scripts'
+  - '%APPVEYOR_BUILD_FOLDER%\_build\installers\'
 
 install:
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
@@ -72,18 +72,12 @@ install:
         "-------------- Installing Modules --------------"
         " "
         & "pip" "install" "commonmark==0.7.0"
-        #& "pip" "install" "jinja2==2.8.1"
         & "pip" "install" "sphinx==1.3.5"
         & "pip" "install" "pillow==3.1.1"
         & "pip" "install" "py2exe_py2==0.6.9"
         & "pip" "install" "pycrypto==2.6.1"
         & "pip" "install" "future==0.15.2"
         & "pip" "install" "https://github.com/enthought/comtypes/archive/1.1.2.zip"
-
-        #$ErrorActionPreference = "SilentlyContinue"
-        #& "easy_install" "--always-unzip" "pycrypto"
-        #& "easy_install" "--always-unzip" "comtypes"
-        #$ErrorActionPreference = "Continue"
       }
 
       " "
@@ -96,8 +90,8 @@ install:
       " "
       "------------ Installing  Inno Setup ------------"
       " "
-      $InnoInstaller = $InstallersFolder + "innosetup-5.5.8-unicode.exe"
-      $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.8-unicode.exe"
+      $InnoInstaller = $InstallersFolder + "isetup-5.5.8-unicode.exe"
+      $InnoURL = "http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe"
       Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       Start-Process $InnoInstaller -arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -Wait
 
