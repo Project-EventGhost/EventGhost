@@ -39,8 +39,8 @@ install:
         " "
         "------------- Installing Stackless -------------"
         " "
-        $StacklessInstaller = $InstallersFolder + "python-2.7.12150-stackless.msi"
-        $StacklessURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
+        $StacklessInstaller = $InstallersFolder + "python-2.7.9150-stackless.msi"
+        $StacklessURL = "http://www.stackless.com/binaries/python-2.7.9150-stackless.msi"
         Start-FileDownload $StacklessURL -Timeout 60000 -FileName $StacklessInstaller
         Start-Process $StacklessInstaller -arg "/quiet /passive /qn /norestart" -Wait
 
@@ -78,7 +78,7 @@ install:
         & "pip" "install" "py2exe_py2==0.6.9"
         & "pip" "install" "pycrypto==2.6.1"
         & "pip" "install" "future==0.15.2"
-        & "pip" "install" "comtypes==1.1.2"
+        & "pip" "install" "https://github.com/enthought/comtypes/archive/1.1.2.zip"
 
         #$ErrorActionPreference = "SilentlyContinue"
         #& "easy_install" "--always-unzip" "pycrypto"
