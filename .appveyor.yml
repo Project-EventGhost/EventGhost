@@ -11,10 +11,10 @@ matrix:
   fast_finish: true
 
 
-cache:
-  - '%PYTHON%\Lib\site-packages'
-  - '%PYTHON%\Scripts'
-  - '%APPVEYOR_BUILD_FOLDER%\_build\installers\'
+#cache:
+#  - '%PYTHON%\Lib\site-packages'
+#  - '%PYTHON%\Scripts'
+#  - '%APPVEYOR_BUILD_FOLDER%\_build\installers\'
 
 install:
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
@@ -33,6 +33,22 @@ install:
       $BuildFolder = $Env:APPVEYOR_BUILD_FOLDER + "\_build\installers\"
       $SitePackages = $Env:PYTHON + "\Lib\site-packages\"
 
+
+      " "
+      "----- Installing Stackless Python 2.7 x32 ------"
+      " "
+      $PythonInstaller = $BuildFolder + "stackless-setup.msi"
+      If ((Test-Path $PythonInstaller) -eq $False) {
+
+        $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
+        Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
+      }
+
+      If (($proc = Get-Process python)) {$proc.Kill()} Else {echo "python not running"}
+      start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
+      python -c "import sys; print(sys.version)"
+      dir c:\
+
       " "
       "------------ Installing  Inno Setup ------------"
       " "
@@ -43,24 +59,12 @@ install:
       }
       & $InnoInstaller "/SP" "/VERYSILENT" "/SUPPRESSMSGBOXES" "/NORESTART" "/RESTARTAPPLICATIONS" "/NOICONS"
       
-      " "
-      "----- Installing Stackless Python 2.7 x32 ------"
-      " "
-      $PythonInstaller = $BuildFolder + "stackless-setup.msi"
-      If ((Test-Path $PythonInstaller) -eq $False) {
 
-        $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
-        Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
-      }
-      
-      If (($proc = Get-Process python)) {$proc.Kill()} Else {echo "python not running"}
-      start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
-
+      " "
+      "--------- Installing  wxPython 3.0.2.0 ---------"
+      " "
       $WXInstaller = $BuildFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
       If ((Test-Path $WXInstaller) -eq $False) {
-        " "
-        "--------- Installing  wxPython 3.0.2.0 ---------"
-        " "
         $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
         Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
         & $WXInstaller "/VERYSILENT" "/SUPPRESSMSGBOXES"
