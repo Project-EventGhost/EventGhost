@@ -26,6 +26,9 @@ install:
   # Microsoft Visual C++ Redistributable 2008 (version min: 9.0.21022.8)
   # - cinst vcredist2008
 
+build: off
+
+after_test:
   - cmd: if not exist _build\installers md _build\installers
 
   # --------------Downloads and Installs--------------
@@ -56,7 +59,7 @@ install:
       python -c "import sys; print(sys.version)"
       (Get-Item "C:\Python27\python27.dll").VersionInfo
       del "C:\Python27\python27.dll"
-      
+
       " "
       "------------ Installing  Inno Setup ------------"
       " "
@@ -66,7 +69,7 @@ install:
         Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       }
       & $InnoInstaller "/SP" "/VERYSILENT" "/SUPPRESSMSGBOXES" "/NORESTART" "/RESTARTAPPLICATIONS" "/NOICONS"
-      
+
 
       " "
       "--------- Installing  wxPython 3.0.2.0 ---------"
@@ -145,9 +148,6 @@ install:
       "--------------- Running Build.Py ---------------"
       " "
 
-build: off
-
-after_test:
   - cmd: python.exe _build\\Build.py --build --package
   - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
   - cmd: set /P setup-exe= < _build\output\setup-exe.txt
