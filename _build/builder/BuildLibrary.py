@@ -74,7 +74,7 @@ class BuildLibrary(builder.Task):
         setup(
             script_args=["py2exe"],
             windows=[Target(buildSetup)],
-            verbose=0,
+            verbose=2,
             zipfile=EncodePath(join(buildSetup.libraryName, self.zipName)),
             options = dict(
                 build=dict(build_base=join(buildSetup.tmpDir, "build")),
