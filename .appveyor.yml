@@ -6,7 +6,6 @@ version: '{build}-{branch}'
 
 environment:
   matrix:
-    fast_finish: true
     - PYTHON: 'C:\\Python27'
 
 cache:
