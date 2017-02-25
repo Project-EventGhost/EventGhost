@@ -48,6 +48,15 @@ after_test:
       (Get-Item "C:\Windows\system32\python27.dll").VersionInfo
       (Get-Item "C:\Windows\SysWOW64\python27.dll").VersionInfo
 
+  - cmd: copy "c:\Python27\python27.dll" "C:\Windows\system32\python27.dll" /Y
+  - cmd: copy "c:\Python27\python27.dll" "C:\Windows\SysWOW64\python27.dll" /Y
+
+  - ps: |
+      python -c "import sys; print(sys.version)"
+      (Get-Item "C:\Python27\python27.dll").VersionInfo
+      (Get-Item "C:\Windows\system32\python27.dll").VersionInfo
+      (Get-Item "C:\Windows\SysWOW64\python27.dll").VersionInfo
+
 #      $pylib = $Env:PYTHON + "\python27.dll"
 #      echo $pylib
 
