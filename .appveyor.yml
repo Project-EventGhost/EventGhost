@@ -5,9 +5,11 @@
 version: '{build}-{branch}'
 
 environment:
-  matrix:
-    - fast_finish: true
-    - PYTHON: 'C:\\Python27'
+  PYTHON: 'C:\\Python27'
+
+matrix:
+  fast_finish: true
+
 
 cache:
   - '%PYTHON%\Lib\site-packages'
@@ -49,7 +51,7 @@ install:
 
         $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
-
+      }
       $proc = Get-Process python
       $proc.Kill()
       start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
