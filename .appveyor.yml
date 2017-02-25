@@ -40,9 +40,9 @@ after_test:
   - ps: |
       $BuildFolder = $Env:APPVEYOR_BUILD_FOLDER + "\_build\installers\"
       $SitePackages = $Env:PYTHON + "\Lib\site-packages\"
-#      (Get-Item "C:\Python27\python27.dll").VersionInfo
-#      (Get-Item "C:\Windows\system32\python27.dll").VersionInfo
-#      (Get-Item "C:\Windows\SysWOW64\python27.dll").VersionInfo
+      # (Get-Item "C:\Python27\python27.dll").VersionInfo
+      # (Get-Item "C:\Windows\system32\python27.dll").VersionInfo
+      # (Get-Item "C:\Windows\SysWOW64\python27.dll").VersionInfo
       " "
       "----- delete cpython dll's left over from default appveyor installation -----"
       " "
