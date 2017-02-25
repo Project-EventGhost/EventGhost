@@ -6,6 +6,7 @@ version: '{build}-{branch}'
 
 environment:
   matrix:
+    - fast_finish: true
     - PYTHON: 'C:\\Python27'
 
 cache:
@@ -49,11 +50,9 @@ install:
         $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
 
-      } Else {
-        $proc = Get-Process python
-        $proc.Kill()
-        start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
-      }
+      $proc = Get-Process python
+      $proc.Kill()
+      start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
 
       $WXInstaller = $BuildFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
       If ((Test-Path $WXInstaller) -eq $False) {
