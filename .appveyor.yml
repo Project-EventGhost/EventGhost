@@ -49,8 +49,7 @@ install:
         $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
 
-      }
-      & {
+      } else {
         taskkill "/F" "/IM" "python.exe";
         $PythonInstaller "/quiet" "/passive" "/qn" "/norestart" "/lx" "pylog.txt"
       }
