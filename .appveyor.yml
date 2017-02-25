@@ -96,8 +96,8 @@ install:
       " "
       "------------ Installing  Inno Setup ------------"
       " "
-      $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
-      $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
+      $InnoInstaller = $InstallersFolder + "innosetup-5.5.8-unicode.exe"
+      $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.8-unicode.exe"
       Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       Start-Process $InnoInstaller -arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -Wait
 
