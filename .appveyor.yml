@@ -37,21 +37,22 @@ install:
       " "
       "----- Installing Stackless Python 2.7 x32 ------"
       " "
-      $PythonInstaller = $BuildFolder + "stackless-setup.msi"
+      $python -c "import sys; print(sys.version)"
+
+      PythonInstaller = $BuildFolder + "stackless-setup.msi"
       If ((Test-Path $PythonInstaller) -eq $False) {
 
         $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
       }
 
-      $pylib = $PYTHON + "\python27.dll"
+      $pylib = $Env:PYTHON + "\python27.dll"
       echo $pylib
       del $pylib
 
       If (($proc = Get-Process python)) {$proc.Kill()} Else {echo "python not running"}
       start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
       python -c "import sys; print(sys.version)"
-      dir c:\Python27\lib
 
       " "
       "------------ Installing  Inno Setup ------------"
@@ -144,9 +145,6 @@ install:
 build: off
 
 after_test:
-  - cmd: python -c "import sys; print(sys.version)"
-  - cmd: dir c:\Python27\lib
-  - cmd: set PATH
   - cmd: python.exe _build\\Build.py --make-env --build --package
   - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
   - cmd: set /P setup-exe= < _build\output\setup-exe.txt
