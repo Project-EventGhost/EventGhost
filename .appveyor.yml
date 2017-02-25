@@ -45,7 +45,8 @@ install:
       }
 
       $pylib = $PYTHON + "\python27.dll"
-      If (Test-Path $pylib) {del $pylib} Else {echo "python27.dll not found"}
+      echo $pylib
+      del $pylib
 
       If (($proc = Get-Process python)) {$proc.Kill()} Else {echo "python not running"}
       start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
