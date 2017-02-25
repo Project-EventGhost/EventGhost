@@ -52,8 +52,8 @@ install:
         $PythonURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
       }
-      $proc = Get-Process python -ErrorAction SilentlyContinue
-      $proc.Kill() -ErrorAction SilentlyContinue
+      
+      If (($proc = Get-Process python)) {$proc.Kill()} Else {echo "python not running"}
       start $PythonInstaller "/quiet /passive /qn /norestart /lx pylog.txt" -Wait
 
       $WXInstaller = $BuildFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
