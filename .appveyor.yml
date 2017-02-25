@@ -40,18 +40,14 @@ after_test:
   - ps: |
       $BuildFolder = $Env:APPVEYOR_BUILD_FOLDER + "\_build\installers\"
       $SitePackages = $Env:PYTHON + "\Lib\site-packages\"
-
       python.exe -c "import sys; print(sys.version)"
       (Get-Item "C:\Python27\python27.dll").VersionInfo
       (Get-Item "C:\Windows\system32\python27.dll").VersionInfo
       (Get-Item "C:\Windows\SysWOW64\python27.dll").VersionInfo
-
       " "
       "----- Installing Stackless Python 2.7 x32 ------"
       " "
-
-
-#      If (($proc = Get-Process python)) {$proc.Kill()} Else {echo "python not running"}
+      # If (($proc = Get-Process python)) {$proc.Kill()} Else {echo "python not running"}
       python -c "import sys; print(sys.version)"
       (Get-Item "C:\Python27\python27.dll").VersionInfo
 
