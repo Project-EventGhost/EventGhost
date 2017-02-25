@@ -54,7 +54,6 @@ class InnoInstaller(object):
         if ignoreversion:
             line += '; Flags: ignoreversion'
         self.Add("Files", line)
-        print "add file:", line
 
     def ExecuteInnoSetup(self):
         """
