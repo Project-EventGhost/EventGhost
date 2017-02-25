@@ -11,7 +11,9 @@ environment:
   PYTHON: 'C:\Python27'
 
 cache:
-  - '%PYTHON%'
+  - '%PYTHON%\Lib\site-packages'
+  - '%PYTHON%\Scripts'
+  - '%APPVEYOR_BUILD_FOLDER%\_build\installers\'
 
 install:
   # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000

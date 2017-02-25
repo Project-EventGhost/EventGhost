@@ -69,10 +69,12 @@ class BuildLibrary(builder.Task):
                 if not os.path.isdir(path):
                     os.remove(path)
 
+        import distutils.log
+        distutils.log.set_verbosity(-1)
         setup(
             script_args=["py2exe"],
             windows=[Target(buildSetup)],
-            verbose=2,
+            verbose=0,
             zipfile=EncodePath(join(buildSetup.libraryName, self.zipName)),
             options = dict(
                 build=dict(build_base=join(buildSetup.tmpDir, "build")),

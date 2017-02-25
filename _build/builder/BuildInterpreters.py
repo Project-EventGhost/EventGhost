@@ -56,6 +56,8 @@ class BuildInterpreters(builder.Task):
         manifest = file(
             join(buildSetup.pyVersionDir, "Manifest.xml")
         ).read()
+        import distutils.log
+        distutils.log.set_verbosity(-1)
         setup(
             script_args = ["py2exe"],
             options=dict(
@@ -79,7 +81,7 @@ class BuildInterpreters(builder.Task):
                     other_resources = [(24, 1, manifest)],
                 )
             ],
-            verbose=2,
+            verbose=0,
         )
         shutil.copy(
             join(tmpDir, "dist", PY_BASE_NAME + ".exe"),
