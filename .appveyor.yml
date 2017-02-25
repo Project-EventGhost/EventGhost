@@ -11,8 +11,7 @@ environment:
   PYTHON: 'C:\Python27'
 
 cache:
-  - '%PYTHON%\Lib\site-packages'
-  - '%PYTHON%\Scripts'
+  - '%PYTHON%'
   - '%APPVEYOR_BUILD_FOLDER%\_build\installers\'
 
 install:
