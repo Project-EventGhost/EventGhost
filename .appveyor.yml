@@ -45,6 +45,8 @@ after_test:
       " "
       python -c "import sys; print(sys.version)"
       (Get-Item "C:\Python27\python27.dll").VersionInfo
+      (Get-Item "C:\Windows\system32\python27.dll").VersionInfo
+      (Get-Item "C:\Windows\SysWOW64\python27.dll").VersionInfo
 
 #      $pylib = $Env:PYTHON + "\python27.dll"
 #      echo $pylib
@@ -142,7 +144,7 @@ after_test:
 #      " "
   - cmd: cd "c:\"
   - cmd: dir
-  - cmd: dir "python*.dll" /s
+#  - cmd: dir "python*.dll" /s
 #  - cmd: python.exe _build\\Build.py --build --package
 #  - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
 #  - cmd: set /P setup-exe= < _build\output\setup-exe.txt
