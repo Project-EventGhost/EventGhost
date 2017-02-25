@@ -79,7 +79,7 @@ class BuildInterpreters(builder.Task):
                     other_resources = [(24, 1, manifest)],
                 )
             ],
-            verbose=0,
+            verbose=2,
         )
         shutil.copy(
             join(tmpDir, "dist", PY_BASE_NAME + ".exe"),
