@@ -6,6 +6,7 @@ version: '{build}-{branch}'
 
 environment:
   matrix:
+    fast_finish: true
     - PYTHON: 'C:\\Python27'
 
 cache:
@@ -50,7 +51,8 @@ install:
         Start-FileDownload $PythonURL -Timeout 60000 -FileName $PythonInstaller
 
       } else {
-        taskkill "/F" "/IM" "python.exe";
+        $proc = Get-Process python
+        $proc.Kill()
         $PythonInstaller "/quiet" "/passive" "/qn" "/norestart" "/lx" "pylog.txt"
       }
 
