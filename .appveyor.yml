@@ -52,7 +52,7 @@ install:
         $StacklessInstallDir = "TARGETDIR=" + $PythonFolder
         $StacklessURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
         Start-FileDownload $StacklessURL -Timeout 60000 -FileName $StacklessInstaller
-        Start-Process "MsiExec.exe" -arg "/I $StacklessInstaller /quiet /passive /qn /norestart $StacklessInstallDir" -Wait
+        Start-Process MsiExec.exe -Args '/I $StacklessInstaller /quiet /passive /qn /norestart $StacklessInstallDir' -NoNewWindow -Wait
         "DONE!"
 
         " "
@@ -61,7 +61,7 @@ install:
         $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
         $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
         Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
-        Start-Process $WXInstaller -arg "/VERYSILENT /SUPPRESSMSGBOXES" -Wait
+        Start-Process $WXInstaller -Args '/VERYSILENT /SUPPRESSMSGBOXES' -NoNewWindow -Wait
         "DONE!"
 
         " "
@@ -108,7 +108,7 @@ install:
       "----- Running PyWin32  Post Install Script -----"
       " "
       $PywinPostInstall = $PythonScripts +"\pywin32_postinstall.py"
-      & "python" $PywinPostInstall "-install" "-silent" "-quiet" | Out-Null
+      Start-Process python -Args '$PywinPostInstall -install -silent -quiet' -NoNewWindow -Wait | Out-Null
       "DONE!"
 
       " "
@@ -117,7 +117,7 @@ install:
       $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
       $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
       Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
-      Start-Process $InnoInstaller -arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -Wait
+      Start-Process $InnoInstaller -Args '/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS' -NoNewWindow -Wait
       "DONE!"
 
       " "
@@ -128,7 +128,7 @@ build: off
 
 after_test:
   - ps: |
-      Start-Process python -arg "_build\\Build.py --build --package" -Wait
+      Start-Process python -Args '_build\\Build.py --build --package' -NoNewWindow -Wait
       $SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
       "DONE!"
       # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
