@@ -88,15 +88,18 @@ install:
         " "
         "------------ Installing  pywin32 220 -----------"
         " "
-        $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
-        $PyWinWheel = $InstallersFolder + "pywin32-220-cp27-none-win32.whl"
-        $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
-        Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
-        cd $InstallersFolder
-        & "wheel" "convert" $PyWinInstaller
+        pip install "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.zip/download"
+        #$PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
+        #$PyWinWheel = $InstallersFolder + "pywin32-220-cp27-none-win32.whl"
+        #$PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
+        #Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
+        #cd $InstallersFolder
+        #$OldErrorActionPreference = $ErrorActionPreference
+        #$ErrorActionPreference = "SilentlyContinue"
+        #& "wheel" "convert" $PyWinInstaller
         #$ErrorActionPreference = "Continue"
-        & "pip" "install" $PyWinWheel
-        cd $Env:APPVEYOR_BUILD_FOLDER
+        #& "pip" "install" $PyWinWheel
+        #cd $Env:APPVEYOR_BUILD_FOLDER
         "DONE!"
 
       }
