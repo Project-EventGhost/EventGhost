@@ -43,7 +43,6 @@ install:
 
       Remove-Item $PythonWindowsDLL
       " "
-      " "
 
       If (-not (Test-Path $PythonFolder)) {
         New-Item $InstallersFolder -type directory | Out-Null
@@ -90,13 +89,10 @@ install:
         pip install -q "pycrypto==2.6.1"
         pip install -q "https://github.com/enthought/comtypes/archive/1.1.3.zip"
         pip install -q "svn+http://svn.python.org/projects/ctypes/trunk/ctypeslib/#ctypeslib=0.5.6"
-        #$ErrorActionPreference = "SilentlyContinue"
-        #& "easy_install" "--always-unzip" "pycrypto"
-        #& "easy_install" "--always-unzip" "comtypes"
-        pip list
+        pip list --format=columns
         " "
         "DONE!"
-        
+
 
         " "
         "------------ Installing  pywin32 220 -----------"
@@ -115,13 +111,11 @@ install:
 
       }
 
-      #Copy-Item $PythonDLL $SysWOW
-
       " "
       "----- Running PyWin32  Post Install Script -----"
       " "
       $PywinPostInstall = $PythonScripts +"\pywin32_postinstall.py"
-      & "python" $PywinPostInstall "-install" "-silent" "-quiet"
+      & "python" $PywinPostInstall "-install" "-silent" "-quiet" | Out-Null
       "DONE!"
 
       " "
@@ -145,10 +139,10 @@ after_test:
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
   - cmd: echo "DONE!"
 
-#artifacts:
-#  - path: _build\output\$(setup-exe)
-#  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
-#  - path: _build\output\CHANGELOG_THIS_RELEASE.md
+artifacts:
+  - path: _build\output\$(setup-exe)
+  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
+  - path: _build\output\CHANGELOG_THIS_RELEASE.md
 
 #before_deploy:
 #  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
@@ -170,5 +164,6 @@ deploy:
       #branch: master          # release from master branch only
       appveyor_repo_tag: true # deploy on tag push only
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  # Enable Remotedesktop and pause the build execution
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
