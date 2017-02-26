@@ -140,15 +140,14 @@ install:
 build: off
 
 after_test:
-  - cmd: python _build\\Build.py --build --package
-  - cmd: echo "DONE!"
   - ps: |
-      $SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
+      python _build\\Build.py --build --package
+      $Env:SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
       "DONE!"
       # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
 
 artifacts:
-  - path: _build\output\$SetupExe
+  - path: _build\output\$(SetupExe)
   - path: _build\output\CHANGELOG_THIS_RELEASE.bb
   - path: _build\output\CHANGELOG_THIS_RELEASE.md
   - path: _build\output\BuildInterpreter_py2exe_log.txt
