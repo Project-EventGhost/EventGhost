@@ -130,8 +130,8 @@ after_test:
   - ps: |
       python _build\\Build.py --build --package
       $SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
-  # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
       "DONE!"
+      # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
 
 artifacts:
   - path: _build\output\$SetupExe
