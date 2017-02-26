@@ -30,6 +30,8 @@ install:
   - ps: |
       $Env:PATH = $Env:PATH -replace "Python27", "Stackless27"
       $PythonFolder = $Env:PYTHON
+      $PythonScripts = $PythonFolder + "\Scripts"
+      $SitePackages = $PythonFolder + "\lib\site-packages"
       $SysWOW = $Env:SYSTEMROOT + "\SysWOW64"
       $PythonWindowsDLL = $SysWOW + "\python27.dll"
       $PythonDLL = $PythonFolder + "\python27.dll"
@@ -94,11 +96,10 @@ install:
         Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
 
         cd $InstallersFolder
-        7z x "pywin32-220.win32-py2.7.exe"
-        dir
-        cd "pywin32-220"
-        python setup.py install
-
+        7z x "pywin32-220.win32-py2.7.exe" -opywin32
+        cd pywin32
+        Copy-Item -Path ".\PLATLIB" -Destination $SitePackages -recurse
+        Copy-Item -Path ".\SCRIPTS" -Destination $PythonScripts -recurse
         #$OldErrorActionPreference = $ErrorActionPreference
         #$ErrorActionPreference = "SilentlyContinue"
         #& "wheel" "convert" $PyWinInstaller
@@ -114,7 +115,7 @@ install:
       " "
       "----- Running PyWin32  Post Install Script -----"
       " "
-      $PywinPostInstall = $Env:PYTHON + "\Scripts\pywin32_postinstall.py"
+      $PywinPostInstall = $PythonScripts +"\pywin32_postinstall.py"
       & "python" $PywinPostInstall "-install" "-silent" "-quiet"
       "DONE!"
 
