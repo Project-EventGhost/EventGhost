@@ -79,7 +79,7 @@ install:
         " "
 
         pip install -q "wheel"
-        pip install -q "sphinx==1.4.9"
+        pip install -q "sphinx==1.4.8"
         pip install -q "commonmark==0.7.3"
         pip install -q "pillow==3.4.2"
         pip install -q "py2exe_py2==0.6.9"
