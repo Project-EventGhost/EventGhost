@@ -10,6 +10,7 @@ matrix:
 environment:
   PYTHON: 'C:\Stackless27'
   PYTHONPATH: 'C:\Stackless27;C:\Stackless27\Scripts;C:\Stackless27\DLLs;C:\Stackless27\Lib;C:\Stackless27\Lib\site-packages;'
+  Py_DEBUG: "False"
 
 cache:
   - '%PYTHON%'
@@ -52,18 +53,20 @@ install:
         "DONE!"
 
         " "
-        "---------------- Upgradeing PIP ----------------"
+        "---------------- Upgrading PIP ----------------"
         " "
+        pip -V
         Start-Process "python" -arg "-m pip install --upgrade pip" -Wait
+        pip -V
         "DONE!"
 
         " "
         "--------- Installing  wxPython 3.0.2.0 ---------"
         " "
-        $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
-        $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
-        Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
-        Start-Process $WXInstaller -arg "/VERYSILENT /SUPPRESSMSGBOXES" -Wait
+        #$WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
+        #$WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
+        #Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
+        #Start-Process $WXInstaller -arg "/VERYSILENT /SUPPRESSMSGBOXES" -Wait
         "DONE!"
 
         " "
@@ -85,7 +88,6 @@ install:
         " "
         "------------ Installing  pywin32 220 -----------"
         " "
-        $Env:Py_DEBUG = 'False'
         $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
         $PyWinWheel = $InstallersFolder + "pywin32-220-cp27-none-win32.whl"
         $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
@@ -123,16 +125,16 @@ install:
 build: off
 
 after_test:
-  - cmd: python.exe _build\\Build.py --build --package
-  - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
-  - cmd: set /P setup-exe= < _build\output\setup-exe.txt
+  #- cmd: python.exe _build\\Build.py --build --package
+  #- cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
+  #- cmd: set /P setup-exe= < _build\output\setup-exe.txt
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
   - cmd: echo "DONE!"
 
-artifacts:
-  - path: _build\output\$(setup-exe)
-  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
-  - path: _build\output\CHANGELOG_THIS_RELEASE.md
+#artifacts:
+#  - path: _build\output\$(setup-exe)
+#  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
+#  - path: _build\output\CHANGELOG_THIS_RELEASE.md
 
 #before_deploy:
 #  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
