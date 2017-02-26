@@ -40,10 +40,10 @@ install:
       $InstallersFolder = $Env:APPVEYOR_BUILD_FOLDER + "\_build\installers\"
 
       Remove-Item $PythonWindowsDLL
+      New-Item $InstallersFolder -type directory | Out-Null
       " "
 
       If (-not (Test-Path $PythonFolder)) {
-        New-Item $InstallersFolder -type directory | Out-Null
 
         " "
         "------ Installing Stackless 2.7.12150 x86 ------"
