@@ -68,7 +68,7 @@ install:
         "-------------- Installing Modules --------------"
         " "
 
-        python -m pip install --upgrade pip==9.0.1
+        python -m pip install -q -U "pip==9.0.1"
         pip install -q -U "setuptools==34.3.0"
         pip install -q "wheel==0.29.0"
         # sphinx >= 1.4.9 installs jinja2 >= 2.3 as dependency,
@@ -128,7 +128,7 @@ build: off
 
 after_test:
   - ps: |
-      python _build\\Build.py --build --package
+      Start-Process python -arg "_build\\Build.py --build --package" -Wait
       $SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
       "DONE!"
       # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
