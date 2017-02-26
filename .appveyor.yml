@@ -79,6 +79,10 @@ install:
         " "
 
         pip install -q "wheel"
+        # sphinx >= 1.4.9 installs jinja2 >= 2.9 as dependency,
+        # jinja2 >= 2.9 has an async module which py2exe has
+        # problems with (build of eg will fail)
+        pip install -q "jinja2==2.8"
         pip install -q "sphinx==1.4.8"
         pip install -q "commonmark==0.7.3"
         pip install -q "pillow==3.4.2"
@@ -89,6 +93,10 @@ install:
         #$ErrorActionPreference = "SilentlyContinue"
         #& "easy_install" "--always-unzip" "pycrypto"
         #& "easy_install" "--always-unzip" "comtypes"
+        pip list
+        " "
+        "DONE!"
+        
 
         " "
         "------------ Installing  pywin32 220 -----------"
