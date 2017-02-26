@@ -104,8 +104,8 @@ install:
         "--------------------------------------"
         dir $PythonScripts
         "--------------------------------------"
-        Copy-Item -Path ".\PLATLIB" -Destination $SitePackages -recurse
-        Copy-Item -Path ".\SCRIPTS" -Destination $PythonScripts -recurse
+        Copy-Item -Path ".\PLATLIB\*" -Destination $SitePackages -recurse
+        Copy-Item -Path ".\SCRIPTS\*" -Destination $PythonScripts -recurse
         "--------------------------------------"
         dir
         "--------------------------------------"
