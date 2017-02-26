@@ -4,8 +4,9 @@
 
 version: '{build}-{branch}'
 
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#init:
+#  # Enable Remotedesktop and pause the build execution
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
   PYTHON: 'C:\Stackless27'
@@ -16,8 +17,8 @@ matrix:
   fast_finish: true
 
 
-#cache:
-#  - '%PYTHON%'
+cache:
+  - '%PYTHON%'
 
 install:
   # HTML Help Workshop 1.32
@@ -57,8 +58,8 @@ install:
         " "
         "---------------- Upgrading PIP ----------------"
         " "
-        Start-Process "python" -arg "-m pip install --upgrade pip" -Wait
-        pip install -q -U setuptools
+        Start-Process "python" -arg "-m pip install --upgrade pip==9.0.1" -Wait
+        pip install -q -U "setuptools==34.3.0"
         "DONE!"
 
         " "
@@ -78,7 +79,7 @@ install:
         # sphinx >= 1.4.9 installs jinja2 >= 2.9 as dependency,
         # jinja2 >= 2.9 has an async module which py2exe has
         # problems with (build of eg will fail)
-        pip install -q "jinja2==2.8"
+        pip install -q "jinja2==2.8.1"
         pip install -q "sphinx==1.4.8"
         pip install -q "commonmark==0.7.3"
         pip install -q "pillow==3.4.2"
@@ -140,6 +141,8 @@ artifacts:
   - path: _build\output\$(setup-exe)
   - path: _build\output\CHANGELOG_THIS_RELEASE.bb
   - path: _build\output\CHANGELOG_THIS_RELEASE.md
+  - path: _build\output\BuildInterpreter_py2exe_log.txt
+  - path: _build\output\BuildLibrary_py2exe_log.txt
 
 #before_deploy:
 #  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp
