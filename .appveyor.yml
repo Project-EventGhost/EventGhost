@@ -64,10 +64,10 @@ install:
         " "
         "--------- Installing  wxPython 3.0.2.0 ---------"
         " "
-        #$WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
-        #$WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
-        #Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
-        #Start-Process $WXInstaller -arg "/VERYSILENT /SUPPRESSMSGBOXES" -Wait
+        $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
+        $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
+        Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
+        Start-Process $WXInstaller -arg "/VERYSILENT /SUPPRESSMSGBOXES" -Wait
         "DONE!"
 
         " "
