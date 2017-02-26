@@ -141,7 +141,7 @@ build: off
 
 after_test:
   - ps: |
-      Start-Process python -arg "_build\\Build.py --build --package" -Wait -PassThru *>&1
+      python _build\\Build.py --build --package *>&1
       $Env:SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
       "DONE!"
       # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
