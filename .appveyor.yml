@@ -87,7 +87,7 @@ install:
         " "
         "------------ Installing  pywin32 220 -----------"
         " "
-        pip install --wheel "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.zip/download"
+        pip install --egg "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.zip/download"
         #$PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
         #$PyWinWheel = $InstallersFolder + "pywin32-220-cp27-none-win32.whl"
         #$PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
