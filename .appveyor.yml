@@ -89,35 +89,15 @@ install:
         " "
         "------------ Installing  pywin32 220 -----------"
         " "
-        #pip install --egg "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.zip/download"
         $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
-        #$PyWinWheel = $InstallersFolder + "pywin32-220-cp27-none-win32.whl"
         $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
         Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
 
         cd $InstallersFolder
-        7z x "pywin32-220.win32-py2.7.exe" -opywin32
+        7z x -bd -y "pywin32-220.win32-py2.7.exe" -opywin32
         cd pywin32
-        dir
-        "--------------------------------------"
-        dir $SitePackages
-        "--------------------------------------"
-        dir $PythonScripts
-        "--------------------------------------"
         Copy-Item -Path ".\PLATLIB\*" -Destination $SitePackages -recurse
         Copy-Item -Path ".\SCRIPTS\*" -Destination $PythonScripts -recurse
-        "--------------------------------------"
-        dir
-        "--------------------------------------"
-        dir $SitePackages
-        "--------------------------------------"
-        dir $PythonScripts
-        "--------------------------------------"
-        #$OldErrorActionPreference = $ErrorActionPreference
-        #$ErrorActionPreference = "SilentlyContinue"
-        #& "wheel" "convert" $PyWinInstaller
-        #$ErrorActionPreference = "Continue"
-        #& "pip" "install" $PyWinWheel
         cd $Env:APPVEYOR_BUILD_FOLDER
         "DONE!"
 
@@ -147,9 +127,9 @@ install:
 build: off
 
 after_test:
-  #- cmd: python.exe _build\\Build.py --build --package
-  #- cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
-  #- cmd: set /P setup-exe= < _build\output\setup-exe.txt
+  - cmd: python.exe _build\\Build.py --build --package
+  - cmd: dir _build\output\*Setup.exe /B > _build\output\setup-exe.txt
+  - cmd: set /P setup-exe= < _build\output\setup-exe.txt
   # - START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
   - cmd: echo "DONE!"
 
