@@ -56,13 +56,6 @@ install:
         "DONE!"
 
         " "
-        "---------------- Upgrading PIP ----------------"
-        " "
-        Start-Process "python" -arg "-m pip install --upgrade pip==9.0.1" -Wait
-        pip install -q -U "setuptools==34.3.0"
-        "DONE!"
-
-        " "
         "--------- Installing  wxPython 3.0.2.0 ---------"
         " "
         $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
@@ -75,8 +68,10 @@ install:
         "-------------- Installing Modules --------------"
         " "
 
-        pip install -q "wheel"
-        # sphinx >= 1.4.9 installs jinja2 >= 2.9 as dependency,
+        python -m pip install --upgrade pip==9.0.1
+        pip install -q -U "setuptools==34.3.0"
+        pip install -q "wheel==0.29.0"
+        # sphinx >= 1.4.9 installs jinja2 >= 2.3 as dependency,
         # jinja2 >= 2.9 has an async module which py2exe has
         # problems with (build of eg will fail)
         pip install -q "jinja2==2.8.1"
@@ -143,6 +138,7 @@ artifacts:
   - path: _build\output\CHANGELOG_THIS_RELEASE.md
   - path: _build\output\BuildInterpreter_py2exe_log.txt
   - path: _build\output\BuildLibrary_py2exe_log.txt
+  - path: _build\output\HTML_HELP_Compiler_log.txt
 
 #before_deploy:
 #  - cmd: python -c "fh=open('_build\\output\\CHANGELOG.md'); txt=fh.read().replace('\n','\\n'); print txt[txt.find('**'):]" > tmp

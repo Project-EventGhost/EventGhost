@@ -20,6 +20,7 @@ import codecs
 import os
 import re
 import shutil
+import sys
 import sphinx
 from os.path import join
 
@@ -76,6 +77,7 @@ class BuildChmDocs(builder.Task):
         #warnings.simplefilter('ignore', DeprecationWarning)
         sphinx.build_main([
             None,
+            '-q',  # be quiet
             "-a",  # always write all output files
             "-b", "htmlhelp",
             "-E",  # Don’t use a saved environment (the structure
@@ -86,6 +88,9 @@ class BuildChmDocs(builder.Task):
             "-D", "release=%s" % self.buildSetup.appVersion,
             "-D", "templates_path=[]",
             "-d", EncodePath(join(self.buildSetup.tmpDir, ".doctree")),
+            # '-v',  # verbosity, can be given up to three times
+            # write warnings and errors to file
+            '-w', join('output', 'sphinx_log.txt'),
             EncodePath(DOCS_SOURCE_DIR),
             tmpDir,
         ])
@@ -97,7 +102,11 @@ class BuildChmDocs(builder.Task):
                 "HTML Help Workshop command line compiler not found"
             )
         hhpPath = join(tmpDir, "EventGhost.hhp")
+        oldout = sys.stdout
+        sys.stdout = open(join('output', 'HTML_HELP_Compiler_log.txt'), 'w')
         StartProcess(htmlHelpCompilerPath, hhpPath)
+        sys.stdout.close()
+        sys.stdout = oldout
         shutil.copy(join(tmpDir, "EventGhost.chm"), self.buildSetup.sourceDir)
 
 
