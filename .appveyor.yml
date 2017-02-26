@@ -4,13 +4,17 @@
 
 version: '{build}-{branch}'
 
-matrix:
-  fast_finish: true
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
   PYTHON: 'C:\Stackless27'
   PYTHONPATH: 'C:\Stackless27;C:\Stackless27\Scripts;C:\Stackless27\DLLs;C:\Stackless27\Lib;C:\Stackless27\Lib\site-packages;'
   Py_DEBUG: "False"
+
+matrix:
+  fast_finish: true
+
 
 #cache:
 #  - '%PYTHON%'
@@ -58,7 +62,7 @@ install:
         "---------------- Upgrading PIP ----------------"
         " "
         Start-Process "python" -arg "-m pip install --upgrade pip" -Wait
-        pip install -U setuptools
+        pip install -q -U setuptools
         "DONE!"
 
         " "
@@ -94,7 +98,7 @@ install:
         Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
 
         cd $InstallersFolder
-        7z x -bd -y "pywin32-220.win32-py2.7.exe" -opywin32
+        7z x -bd -y "pywin32-220.win32-py2.7.exe" -opywin32 | Out-Null
         cd pywin32
         Copy-Item -Path ".\PLATLIB\*" -Destination $SitePackages -recurse
         Copy-Item -Path ".\SCRIPTS\*" -Destination $PythonScripts -recurse
