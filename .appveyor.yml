@@ -20,9 +20,6 @@ matrix:
 #  - '%PYTHON%'
 
 install:
-  # - ps: Start-FileDownload "https://github.com/appveyor/ci/raw/master/scripts/enable-rdp.ps1" -Timeout 60000
-  # - enable-rdp.ps1
-
   # HTML Help Workshop 1.32
   # - cinst html-help-workshop
 
