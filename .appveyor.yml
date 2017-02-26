@@ -98,8 +98,21 @@ install:
         cd $InstallersFolder
         7z x "pywin32-220.win32-py2.7.exe" -opywin32
         cd pywin32
+        dir
+        "--------------------------------------"
+        dir $SitePackages
+        "--------------------------------------"
+        dir $PythonScripts
+        "--------------------------------------"
         Copy-Item -Path ".\PLATLIB" -Destination $SitePackages -recurse
         Copy-Item -Path ".\SCRIPTS" -Destination $PythonScripts -recurse
+        "--------------------------------------"
+        dir
+        "--------------------------------------"
+        dir $SitePackages
+        "--------------------------------------"
+        dir $PythonScripts
+        "--------------------------------------"
         #$OldErrorActionPreference = $ErrorActionPreference
         #$ErrorActionPreference = "SilentlyContinue"
         #& "wheel" "convert" $PyWinInstaller
