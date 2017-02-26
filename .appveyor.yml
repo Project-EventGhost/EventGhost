@@ -85,6 +85,7 @@ install:
         " "
         "------------ Installing  pywin32 220 -----------"
         " "
+        $Env:Py_DEBUG = 'False'
         $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
         $PyWinWheel = $InstallersFolder + "pywin32-220-cp27-none-win32.whl"
         $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
@@ -105,14 +106,14 @@ install:
       " "
       $PywinPostInstall = $Env:PYTHON + "\Scripts\pywin32_postinstall.py"
       & "python" $PywinPostInstall "-install" "-silent" "-quiet"
-      $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
-      $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
-      Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       "DONE!"
 
       " "
       "------------ Installing  Inno Setup ------------"
       " "
+      $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
+      $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
+      Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
       Start-Process $InnoInstaller -arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -Wait
       "DONE!"
 
