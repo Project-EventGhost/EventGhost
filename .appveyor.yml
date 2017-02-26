@@ -94,7 +94,8 @@ install:
         Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
 
         cd $InstallersFolder
-        7z x $PyWinInstaller
+        7z x "pywin32-220.win32-py2.7.exe"
+        dir
         cd "pywin32-220"
         python setup.py install
 
