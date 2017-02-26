@@ -72,14 +72,14 @@ install:
         "-------------- Installing Modules --------------"
         " "
 
-        & "pip" "install" "wheel"
-        & "pip" "install" "sphinx==1.4.9"
-        & "pip" "install" "commonmark==0.7.3"
-        & "pip" "install" "pillow==3.4.2"
-        & "pip" "install" "py2exe_py2==0.6.9"
-        & "pip" "install" "pycrypto==2.6.1"
-        & "pip" "install" "https://github.com/enthought/comtypes/archive/1.1.3.zip"
-        & "pip" "install" "svn+http://svn.python.org/projects/ctypes/trunk/ctypeslib/#ctypeslib=0.5.6"
+        pip install -q "wheel"
+        pip install -q "sphinx==1.4.9"
+        pip install -q "commonmark==0.7.3"
+        pip install -q "pillow==3.4.2"
+        pip install -q "py2exe_py2==0.6.9"
+        pip install -q "pycrypto==2.6.1"
+        pip install -q "https://github.com/enthought/comtypes/archive/1.1.3.zip"
+        pip install -q "svn+http://svn.python.org/projects/ctypes/trunk/ctypeslib/#ctypeslib=0.5.6"
         #$ErrorActionPreference = "SilentlyContinue"
         #& "easy_install" "--always-unzip" "pycrypto"
         #& "easy_install" "--always-unzip" "comtypes"
@@ -87,18 +87,23 @@ install:
         " "
         "------------ Installing  pywin32 220 -----------"
         " "
-        pip install --egg "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.zip/download"
-        #$PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
+        #pip install --egg "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.zip/download"
+        $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
         #$PyWinWheel = $InstallersFolder + "pywin32-220-cp27-none-win32.whl"
-        #$PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
-        #Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
-        #cd $InstallersFolder
+        $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
+        Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
+
+        cd $InstallersFolder
+        7z x $PyWinInstaller
+        cd "pywin32-220"
+        python setup.py install
+
         #$OldErrorActionPreference = $ErrorActionPreference
         #$ErrorActionPreference = "SilentlyContinue"
         #& "wheel" "convert" $PyWinInstaller
         #$ErrorActionPreference = "Continue"
         #& "pip" "install" $PyWinWheel
-        #cd $Env:APPVEYOR_BUILD_FOLDER
+        cd $Env:APPVEYOR_BUILD_FOLDER
         "DONE!"
 
       }
