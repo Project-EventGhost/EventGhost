@@ -40,7 +40,7 @@ install:
       " "
 
       If (-not (Test-Path $PythonFolder)) {
-        New-Item $InstallersFolder -type directory
+        New-Item $InstallersFolder -type directory | Out-Null
 
         " "
         "------ Installing Stackless 2.7.12150 x86 ------"
@@ -55,9 +55,10 @@ install:
         " "
         "---------------- Upgrading PIP ----------------"
         " "
-        pip -V
         Start-Process "python" -arg "-m pip install --upgrade pip" -Wait
-        pip -V
+        pip list
+        pip install -U setuptools
+        pip list
         "DONE!"
 
         " "
