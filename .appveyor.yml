@@ -123,7 +123,8 @@ install:
       $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
       $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
       Write-Host -NoNewline "    "
-      Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller | ForEach-Object { Write-Host "    " + $_ }
+      wget $InnoURL -OutFile $InnoInstaller
+      #Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller | ForEach-Object { Write-Host "    " + $_ }
       "    Installing..."
       Start-Process $InnoInstaller -Arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -NoNewWindow -Wait
       "    Done."
