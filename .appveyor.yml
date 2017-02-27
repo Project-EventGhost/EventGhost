@@ -123,7 +123,7 @@ install:
       $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
       $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
       Write-Host -NoNewline "    "
-      Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
+      Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller | ForEach-Object { Write-Host "    " + $_ }
       "    Installing..."
       Start-Process $InnoInstaller -Arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -NoNewWindow -Wait
       "    Done."
@@ -137,7 +137,13 @@ install:
       "=============== EventGhost build finished ==============="
 
 
-#build: off
+build:
+  off
+  # If we don't turn build off, we get an error from appveyor telling us,
+  # we should decide, which project or solution file to use, because the
+  # folder contains more than one project or solution file.
+  # We don't really "build" (with a compiler), but Appveyor finds the
+  # solution files in the extension sub-directories and complains.
 
 
 #after_test:
