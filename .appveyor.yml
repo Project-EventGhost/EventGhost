@@ -127,7 +127,7 @@ install:
       " "
       "=============== start the EventGhost build ==============="
       " "
-      python "_build\Build.py" --build --package 9>&1
+      python "_build\Build.py" --build --package
       $Env:SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
       " "
       "=============== EventGhost build finished ==============="
