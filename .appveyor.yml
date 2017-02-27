@@ -50,38 +50,38 @@ install:
           Function PipInstall ($msg, $mod)
           {
               " "
-              "---------- " + $msg
-              "Installing..."
+              "--- " + $msg
+              "    Installing..."
               pip install -q $mod
-              "Done."
+              "    Done."
           }
           " "
-          "---------- Stackless 2.7.12150 x86"
+          "--- Stackless 2.7.12150 x86"
           $StacklessInstaller = $InstallersFolder + "python-2.7.12150-stackless.msi"
           $StacklessInstallDir = "TARGETDIR=" + $PythonFolder
           $StacklessURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
           Start-FileDownload $StacklessURL -Timeout 60000 -FileName $StacklessInstaller
-          "Installing..."
+          "    Installing..."
           Start-Process MsiExec.exe -Arg "/I $StacklessInstaller /quiet /passive /qn /norestart $StacklessInstallDir" -Wait
-          "Done."
+          "    Done."
           " "
-          "---------- wxPython 3.0.2.0"
+          "--- wxPython 3.0.2.0"
           $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
           $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
           Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
-          "Installing..."
+          "    Installing..."
           Start-Process $WXInstaller -Arg "/VERYSILENT /SUPPRESSMSGBOXES" -NoNewWindow -Wait
-          "Done."
+          "    Done."
           " "
-          "---------- pip 9.0.1"
-          "Updating..."
+          "--- pip 9.0.1"
+          "    Updating..."
           python -m pip install -q -U "pip==9.0.1"
-          "Done."
+          "    Done."
           " "
-          "---------- setuptools 34.3.0"
-          "Updating..."
+          "--- setuptools 34.3.0"
+          "    Updating..."
           pip install -q -U "setuptools==34.3.0"
-          "Done."
+          "    Done."
           " "
           PipInstall "wheel 0.29.0" "wheel==0.29.0"
           # sphinx >= 1.4.9 installs jinja2 >= 2.3 as dependency,
@@ -97,46 +97,48 @@ install:
           PipInstall "ctypeslib 0.5.6" "svn+http://svn.python.org/projects/ctypes/trunk/ctypeslib/#ctypeslib=0.5.6"
           #pip list --format=columns
           " "
-          "---------- pywin32 220 -----------"
+          "--- pywin32 220 -----------"
           $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
           $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
           Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
-          "Installing..."
+          "    Installing..."
           cd $InstallersFolder
           7z x -bd -y "pywin32-220.win32-py2.7.exe" -opywin32 | Out-Null
           cd pywin32
           Copy-Item -Path ".\PLATLIB\*" -Destination $SitePackages -recurse
           Copy-Item -Path ".\SCRIPTS\*" -Destination $PythonScripts -recurse
           cd $Env:APPVEYOR_BUILD_FOLDER
-          "Done."
+          "    Done."
       }
       " "
-      "---------- pywin32 post install"
+      "--- pywin32 post install"
       $PywinPostInstall = $PythonScripts +"\pywin32_postinstall.py"
       Start-Process python -Arg "$PywinPostInstall -install -silent -quiet" -Wait
-      "Done."
+      "    Done."
       " "
-      "---------- Inno Setup 5.5.9"
+      "--- Inno Setup 5.5.9"
       $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
       $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
       Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller
-      "Installing..."
+      "    Installing..."
       Start-Process $InnoInstaller -Arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -NoNewWindow -Wait
-      "Done."
+      "    Done."
       " "
       " "
       "=============== start the EventGhost build ==============="
       " "
-      python _build\\Build.py --build --package
+      python "_build\Build.py" --build --package 9>&1
       $Env:SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
+      " "
+      "=============== EventGhost build finished ==============="
 
 
 build: off
 
 
-after_test:
-  - cmd:  echo "=============== EventGhost build finished ==============="
-  # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
+#after_test:
+#  - cmd:  echo "=============== EventGhost build finished ==============="
+#  # - cmd: START /WAIT %setup-exe% /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS
 
 
 artifacts:
