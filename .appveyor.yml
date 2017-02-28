@@ -82,7 +82,7 @@ install:
           $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
           $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
           #Write-Host -NoNewline "    "
-          $wget -O $WXInstaller -q --show-progress --progress=dot:giga $WXURL
+          Start-Process $wget -Arg "-O $WXInstaller -q --show-progress --progress=dot:giga $WXURL" -Wait
           #Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
           "    Installing..."
           Start-Process $WXInstaller -Arg "/VERYSILENT /SUPPRESSMSGBOXES" -NoNewWindow -Wait
@@ -116,7 +116,7 @@ install:
           $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
           $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
           #Write-Host -NoNewline "    "
-          $wget -O $PyWinInstaller -q --show-progress --progress=dot:giga $PyWinURL
+          Start-Process $wget -Arg "-O $PyWinInstaller -q --show-progress --progress=dot:giga $PyWinURL" -Wait
           #Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
           "    Installing..."
           cd $InstallersFolder
@@ -137,7 +137,7 @@ install:
       $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
       $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
       #Write-Host -NoNewline "    "
-      $wget -O $InnoInstaller -q --show-progress --progress=dot:giga $InnoURL
+      Start-Process $wget -Arg "-O $InnoInstaller -q --show-progress --progress=dot:giga $InnoURL" -Wait
       #Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller | ForEach-Object { Write-Host "    " + $_ }
       "    Installing..."
       Start-Process $InnoInstaller -Arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -NoNewWindow -Wait
