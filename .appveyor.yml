@@ -22,6 +22,7 @@ matrix:
 
 cache:
   - '%PYTHON%'
+  - 'c:\wget64'
   # Manually clear cache:
   # from agithub.AppVeyor import AppVeyor
   # ci = AppVeyor(<your appveyor API token>)
@@ -46,7 +47,7 @@ install:
       $PythonWindowsDLL = $SysWOW + "\python27.dll"
       $PythonDLL = $PythonFolder + "\python27.dll"
       $InstallersFolder = $Env:APPVEYOR_BUILD_FOLDER + "\_build\installers\"
-      $wget = $PythonFolder + "\wget64.exe"
+      $wget = "c:\wget64\wget64.exe"
 
       Remove-Item $PythonWindowsDLL
       New-Item $InstallersFolder -type directory | Out-Null
@@ -55,6 +56,9 @@ install:
       If (-not (Test-Path $PythonFolder))
       {
           "--- init our environment"
+          If (-not (Test-Path 'c:\wget64')) {
+            New-Item 'c:\wget64' -type directory | Out-Null
+          }
           $wgetUrl = "https://eternallybored.org/misc/wget/current/wget64.exe"
           curl $wgetUrl -OutFile $wget
 
