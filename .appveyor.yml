@@ -72,7 +72,7 @@ install:
           $StacklessInstallDir = "TARGETDIR=" + $PythonFolder
           $StacklessURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
           #Write-Host -NoNewline "    "
-          $wget -O $StacklessInstaller -q --show-progress --progress=dot:giga $StacklessURL
+          Start-Process $wget -Arg "-O $StacklessInstaller -q --show-progress --progress=dot:giga $StacklessURL" -Wait -PassThrough
           #Start-FileDownload $StacklessURL -Timeout 60000 -FileName $StacklessInstaller
           "    Installing..."
           Start-Process MsiExec.exe -Arg "/I $StacklessInstaller /quiet /passive /qn /norestart $StacklessInstallDir" -Wait
