@@ -86,7 +86,7 @@ install:
           $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
           $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
           #Write-Host -NoNewline "    "
-          "$wget" "-O" "$WXInstaller" "-q" "--show-progress" "--progress=dot:giga" "$WXURL"
+          & "$wget" "-O" "$WXInstaller" "-q" "--show-progress" "--progress=dot:giga" "$WXURL"
           #Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
           "    Installing..."
           Start-Process $WXInstaller -Arg "/VERYSILENT /SUPPRESSMSGBOXES" -NoNewWindow -Wait
