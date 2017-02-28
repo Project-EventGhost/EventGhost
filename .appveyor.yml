@@ -56,7 +56,7 @@ install:
       {
           "--- init our environment"
           $wgetUrl = "https://eternallybored.org/misc/wget/current/wget64.exe"
-          curl $wgetUrl -OutFile $wget | Out-Null
+          curl $wgetUrl -OutFile $wget
 
           Function PipInstall ($msg, $mod)
           {
