@@ -22,7 +22,7 @@ matrix:
 
 cache:
   - '%PYTHON%'
-  - 'c:\wget64'
+  - #'c:\wget64'
   # Manually clear cache:
   # from agithub.AppVeyor import AppVeyor
   # ci = AppVeyor(<your appveyor API token>)
@@ -47,7 +47,7 @@ install:
       $PythonWindowsDLL = $SysWOW + "\python27.dll"
       $PythonDLL = $PythonFolder + "\python27.dll"
       $InstallersFolder = $Env:APPVEYOR_BUILD_FOLDER + "\_build\installers\"
-      $wget = "c:\wget64\wget64.exe"
+      #$wget = "c:\wget64\wget64.exe"
 
       Remove-Item $PythonWindowsDLL
       New-Item $InstallersFolder -type directory | Out-Null
@@ -55,12 +55,12 @@ install:
       "=============== prepare EventGhost build environment ==============="
       If (-not (Test-Path $PythonFolder))
       {
-          "--- init our environment"
-          If (-not (Test-Path 'c:\wget64')) {
-            New-Item 'c:\wget64' -type directory | Out-Null
-          }
-          $wgetUrl = "https://eternallybored.org/misc/wget/current/wget64.exe"
-          curl $wgetUrl -OutFile $wget
+          #"--- init our environment"
+          #If (-not (Test-Path 'c:\wget64')) {
+          #  New-Item 'c:\wget64' -type directory | Out-Null
+          #}
+          #$wgetUrl = "https://eternallybored.org/misc/wget/current/wget64.exe"
+          #curl $wgetUrl -OutFile $wget
 
           Function PipInstall ($msg, $mod)
           {
@@ -76,8 +76,8 @@ install:
           $StacklessInstallDir = "TARGETDIR=" + $PythonFolder
           $StacklessURL = "http://www.stackless.com/binaries/python-2.7.12150-stackless.msi"
           #Write-Host -NoNewline "    "
-          Start-Process $wget -Arg "-O $StacklessInstaller -q --show-progress --progress=dot:giga $StacklessURL" -Wait | Write-Host
-          #Start-FileDownload $StacklessURL -Timeout 60000 -FileName $StacklessInstaller
+          #Start-Process $wget -Arg "-O $StacklessInstaller -q --show-progress --progress=dot:giga $StacklessURL" -Wait | Write-Host
+          Start-FileDownload $StacklessURL -Timeout 60000 -FileName $StacklessInstaller
           "    Installing..."
           Start-Process MsiExec.exe -Arg "/I $StacklessInstaller /quiet /passive /qn /norestart $StacklessInstallDir" -Wait
           "    Done."
@@ -86,8 +86,8 @@ install:
           $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
           $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
           #Write-Host -NoNewline "    "
-          & "$wget" "-O" "$WXInstaller" "-q" "--show-progress" "--progress=dot:giga" "$WXURL"
-          #Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
+          #& "$wget" "-O" "$WXInstaller" "-q" "--show-progress" "--progress=dot:giga" "$WXURL"
+          Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
           "    Installing..."
           Start-Process $WXInstaller -Arg "/VERYSILENT /SUPPRESSMSGBOXES" -NoNewWindow -Wait
           "    Done."
@@ -120,8 +120,8 @@ install:
           $PyWinInstaller = $InstallersFolder + "pywin32-220.win32-py2.7.exe"
           $PyWinURL = "https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download"
           #Write-Host -NoNewline "    "
-          Start-Process $wget -Arg "-O $PyWinInstaller -q --show-progress --progress=dot:giga $PyWinURL" -Wait
-          #Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
+          #Start-Process $wget -Arg "-O $PyWinInstaller -q --show-progress --progress=dot:giga $PyWinURL" -Wait
+          Start-FileDownload $PyWinURL -Timeout 60000 -FileName $PyWinInstaller
           "    Installing..."
           cd $InstallersFolder
           7z x -bd -y "pywin32-220.win32-py2.7.exe" -opywin32 | Out-Null
@@ -141,8 +141,8 @@ install:
       $InnoInstaller = $InstallersFolder + "innosetup-5.5.9-unicode.exe"
       $InnoURL = "http://files.jrsoftware.org/is/5/innosetup-5.5.9-unicode.exe"
       #Write-Host -NoNewline "    "
-      Start-Process $wget -Arg "-O $InnoInstaller -q --show-progress --progress=dot:giga $InnoURL" -Wait
-      #Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller | ForEach-Object { Write-Host "    " + $_ }
+      #Start-Process $wget -Arg "-O $InnoInstaller -q --show-progress --progress=dot:giga $InnoURL" -Wait
+      Start-FileDownload $InnoURL -Timeout 60000 -FileName $InnoInstaller | ForEach-Object { Write-Host "    " + $_ }
       "    Installing..."
       Start-Process $InnoInstaller -Arg "/SP /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /RESTARTAPPLICATIONS /NOICONS" -NoNewWindow -Wait
       "    Done."
