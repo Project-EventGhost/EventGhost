@@ -172,10 +172,11 @@ build:
 
 artifacts:
   - path: _build\output\$(SetupExe)
-  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
-  - path: _build\output\CHANGELOG_THIS_RELEASE.md
+  - path: _build\output\BuildImports_log.txt
   - path: _build\output\BuildInterpreter_py2exe_log.txt
   - path: _build\output\BuildLibrary_py2exe_log.txt
+  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
+  - path: _build\output\CHANGELOG_THIS_RELEASE.md
   - path: _build\output\HTML_HELP_Compiler_log.txt
 
 
