@@ -23,6 +23,7 @@ This way we trick py2exe to include all standard library files and some more
 packages and modules.
 """
 
+import logging
 import os
 import sys
 import warnings
@@ -30,6 +31,8 @@ from os.path import join
 
 # Local imports
 import builder
+
+logger = logging.getLogger()
 
 MODULES_TO_IGNORE = [
     "__phello__.foo",
@@ -85,8 +88,6 @@ class BuildImports(builder.Task):
         """
         Starts the actual work.
         """
-        with open(join('output', 'BuildImports_log.txt'), 'w') as fh:
-            fh.write("")
         buildSetup = self.buildSetup
         MODULES_TO_IGNORE.extend(buildSetup.excludeModules)
 
@@ -97,8 +98,8 @@ class BuildImports(builder.Task):
 
         pyDir = sys.real_prefix if hasattr(sys, "real_prefix") else sys.prefix
         stdLibModules = (
-            FindModulesInPath(self.Print, join(pyDir, "DLLs"), "", True) +
-            FindModulesInPath(self.Print, join(pyDir, "Lib"), "", True)
+            FindModulesInPath(join(pyDir, "DLLs"), "", True) +
+            FindModulesInPath(join(pyDir, "Lib"), "", True)
         )
 
         notFoundModules = []
@@ -111,9 +112,9 @@ class BuildImports(builder.Task):
                 continue
             notFoundModules.append(module)
         if notFoundModules:
-            self.Print("    Modules found in global module index but not in scan:")
+            print "    Modules found in global module index but not in scan:"
             for module in notFoundModules:
-                self.Print("       ", module)
+                print "       ", module
 
         #print "Modules found in scan but not in global module index:"
         #for module in stdLibModules:
@@ -127,18 +128,10 @@ class BuildImports(builder.Task):
         # add every .pyd of the current directory
         for package in buildSetup.includeModules:
             outfile.write("\n# modules found for package '%s'\n" % package)
-            for module in GetPackageModules(self.Print, package):
+            for module in GetPackageModules(package):
                 outfile.write("import %s\n" % module)
         outfile.write("\n")
         outfile.close()
-
-    def Print(self, *args):
-        if self.buildSetup.VerboseOutput():
-            print " ".join(args)
-        with open(join('output', 'BuildImports_log.txt'), 'a') as fh:
-            fh.write(" ".join(args)+'\n')
-
-
 
 
 class DummyStdOut:  #IGNORE:W0232 class has no __init__ method
@@ -152,13 +145,13 @@ class DummyStdOut:  #IGNORE:W0232 class has no __init__ method
         pass
 
 
-def FindModulesInPath(Print, path, prefix="", includeDeprecated=False):
+def FindModulesInPath(path, prefix="", includeDeprecated=False):
     """
     Find modules and packages for a given filesystem path.
     """
     if prefix:
         prefix += "."
-    Print("    Scanning:", path)
+    print "    Scanning:", path
     modules = []
     for root, dirs, files in os.walk(path):
         package = root[len(path) + 1:].replace("\\", ".")
@@ -184,16 +177,16 @@ def FindModulesInPath(Print, path, prefix="", includeDeprecated=False):
             if ShouldBeIgnored(moduleName) or moduleName.endswith(".__init__"):
                 continue
             if moduleName == "MimeWrite":
-                Print("found")
+                print "found"
             isOk, eType, eMesg = TestImport(moduleName, includeDeprecated)
             if not isOk:
                 if not eType == "DeprecationWarning":
-                    Print("       ", moduleName, eType, eMesg)
+                    print "       ", moduleName, eType, eMesg
                 continue
             modules.append(moduleName)
     return modules
 
-def GetPackageModules(Print, package):
+def GetPackageModules(package):
     """
     Returns a list with all modules of the package.
     """
@@ -205,7 +198,7 @@ def GetPackageModules(Print, package):
     for pthPath in pthPaths:
         if os.path.exists(pthPath):
             for path in ReadPth(pthPath):
-                moduleList.extend(FindModulesInPath(Print, path))
+                moduleList.extend(FindModulesInPath(path))
             break
     else:
         mod = __import__(package)
@@ -217,7 +210,7 @@ def GetPackageModules(Print, package):
                 return moduleList
             paths = [os.path.dirname(mod.__file__)]
         for path in paths:
-            moduleList.extend(FindModulesInPath(Print, path, package))
+            moduleList.extend(FindModulesInPath(path, package))
     return moduleList
 
 def GetPydFiles(path):

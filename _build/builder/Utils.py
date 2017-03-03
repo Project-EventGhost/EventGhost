@@ -387,7 +387,6 @@ def ParseVersion(ver):
             raise InvalidVersion
 
 def StartProcess(*args):
-    #SetIndent(1)
     startupInfo = subprocess.STARTUPINFO()
     startupInfo.dwFlags = subprocess.STARTF_USESHOWWINDOW
     startupInfo.wShowWindow = subprocess.SW_HIDE
@@ -412,7 +411,6 @@ def StartProcess(*args):
         else:
             break
     process.wait()
-    #SetIndent(0)
     return process.returncode
 
 def WrapText(text, i1 = "", i2 = ""):
