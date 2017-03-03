@@ -176,6 +176,11 @@ class Builder(object):
             help="build and synchronize website",
         )
         parser.add_argument(
+            "-vv", "--verbose",
+            action="store_true",
+            help="give a more verbose output",
+        )
+        parser.add_argument(
             "-v", "--version",
             action="store",
             help="package as the specified version",
@@ -196,3 +201,9 @@ class Builder(object):
         else:
             thread = threading.Thread(target=builder.Tasks.Main, args=[self])
             thread.start()
+
+    def VerboseOutput(self):
+        return (
+            self.args.verbose or
+            os.environ.get("APPVEYOR_REPO_COMMIT_MESSAGE", "").upper().startswith("VERBOSE:")
+        )

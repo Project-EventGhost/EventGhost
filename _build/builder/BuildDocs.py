@@ -102,11 +102,13 @@ class BuildChmDocs(builder.Task):
                 "HTML Help Workshop command line compiler not found"
             )
         hhpPath = join(tmpDir, "EventGhost.hhp")
-        oldout = sys.stdout
-        sys.stdout = open(join('output', 'HTML_HELP_Compiler_log.txt'), 'w')
+        if not self.buildSetup.VerboseOutput():
+            oldout = sys.stdout
+            sys.stdout = open(join('output', 'HTML_HELP_Compiler_log.txt'), 'w')
         StartProcess(htmlHelpCompilerPath, hhpPath)
-        sys.stdout.close()
-        sys.stdout = oldout
+        if not self.buildSetup.VerboseOutput():
+            sys.stdout.close()
+            sys.stdout = oldout
         shutil.copy(join(tmpDir, "EventGhost.chm"), self.buildSetup.sourceDir)
 
 

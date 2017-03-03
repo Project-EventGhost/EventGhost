@@ -57,8 +57,9 @@ class BuildInterpreters(builder.Task):
             join(buildSetup.pyVersionDir, "Manifest.xml")
         ).read()
 
-        oldout = sys.stdout
-        sys.stdout = open(join('output', 'BuildInterpreter_py2exe_log.txt'), 'w')
+        if not self.buildSetup.VerboseOutput():
+            oldout = sys.stdout
+            sys.stdout = open(join('output', 'BuildInterpreter_py2exe_log.txt'), 'w')
         setup(
             script_args = ["py2exe"],
             options=dict(
@@ -84,8 +85,9 @@ class BuildInterpreters(builder.Task):
             ],
             verbose=0,
         )
-        sys.stdout.close()
-        sys.stdout = oldout
+        if not self.buildSetup.VerboseOutput():
+            sys.stdout.close()
+            sys.stdout = oldout
 
         shutil.copy(
             join(tmpDir, "dist", PY_BASE_NAME + ".exe"),

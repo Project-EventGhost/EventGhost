@@ -69,8 +69,9 @@ class BuildLibrary(builder.Task):
                 if not os.path.isdir(path):
                     os.remove(path)
 
-        oldout = sys.stdout
-        sys.stdout = open(join('output', 'BuildLibrary_py2exe_log.txt'), 'w')
+        if not self.buildSetup.VerboseOutput():
+            oldout = sys.stdout
+            sys.stdout = open(join('output', 'BuildLibrary_py2exe_log.txt'), 'w')
         setup(
             script_args=["py2exe"],
             windows=[Target(buildSetup)],
@@ -90,8 +91,9 @@ class BuildLibrary(builder.Task):
                 )
             )
         )
-        sys.stdout.close()
-        sys.stdout = oldout
+        if not self.buildSetup.VerboseOutput():
+            sys.stdout.close()
+            sys.stdout = oldout
 
         dllNames = [basename(name) for name in glob(join(libraryDir, "*.dll"))]
         neededDlls = []
