@@ -6,15 +6,15 @@
 version: '{build}-{branch}'
 
 
-init:
-  # Enable Remotedesktop and pause the build execution
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#init:
+#  # Enable Remotedesktop and pause the build execution
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 
 environment:
   PYTHON: 'C:\Stackless27'
   PYTHONPATH: 'C:\Stackless27;C:\Stackless27\Scripts;C:\Stackless27\DLLs;C:\Stackless27\Lib;C:\Stackless27\Lib\site-packages;'
-
+  RUBY_VERSION: 233
 
 matrix:
   fast_finish: true
@@ -37,7 +37,7 @@ install:
   # Microsoft Visual C++ Redistributable 2008 (version min: 9.0.21022.8)
   # - cinst vcredist2008
 
-  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - ps: |
       $Env:PATH = $Env:PATH -replace "Python27", "Stackless27"
       $PythonFolder = $Env:PYTHON
