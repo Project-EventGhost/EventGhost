@@ -21,5 +21,5 @@ class Version:
         import VersionInfo
         locals().update(VersionInfo.__dict__)
     except ImportError:
-        base = string = "WIP"
+        base = string = "WorkInProgress"
         major = minor = patch = alpha = beta = rc = buildTime = 0
