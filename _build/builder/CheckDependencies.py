@@ -167,16 +167,16 @@ class ModuleDependency(DependencyBase):
                 version = result[0]
             else:
                 raise Exception("Can't get version information")
-        if not isinstance(version, str):
+        if not isinstance(version, basestring):
             version = ".".join(str(x) for x in version)
         if CompareVersion(version, self.version) < 0:
             raise WrongVersion
 
 
 class PyWin32Dependency(DependencyBase):
-    name = "pypiwin32"
-    version = "219"
-    # url = "https://pypi.python.org/pypi/pypiwin32"
+    name = "pywin32"
+    version = "220"
+    url = "https://eventghost.github.io/dist/dependencies/pywin32-220-cp27-none-win32.whl"
 
     def Check(self):
         versionFilePath = join(
