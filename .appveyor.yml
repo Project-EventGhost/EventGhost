@@ -193,6 +193,4 @@ deploy:
 
 notifications:
   - provider: GitHubPullRequest
-    auth_token:
-      secure: kYBC7MBLfXZYpm146wG5tdZH3fyFX+QSjtIYdV3xCbbcdoit4d0rKp4Pzx7ewf8E
-    # template: "{{#passed}}:white_check_mark: [Setup.exe](https://ci.appveyor.com/api/buildjobs/$(APPVEYOR_JOB_ID)/artifacts/_build%2Foutput%2F$(setup-exe)){{/passed}}{{#failed}}:x:{{/failed}} [Build {{&projectName}} {{buildVersion}} {{status}}]({{buildUrl}}) (commit {{commitUrl}} by @{{&commitAuthorUsername}})"
+    template: "{{#passed}}:white_check_mark: [Setup.exe](https://ci.appveyor.com/api/buildjobs/$(APPVEYOR_JOB_ID)/artifacts/_build%2Foutput%2F$(setup-exe)){{/passed}}{{#failed}}:x:{{/failed}} [Build {{&projectName}} {{buildVersion}} {{status}}]({{buildUrl}}) (commit {{commitUrl}} by @{{&commitAuthorUsername}})"
