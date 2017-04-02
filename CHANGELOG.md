@@ -1,4 +1,5 @@
 ## [0.5.0-rc6](https://github.com/EventGhost/EventGhost/releases/tag/v0.5.0-rc6) (2018-12-24)
+=======
 
 **Enhancements:**
 
