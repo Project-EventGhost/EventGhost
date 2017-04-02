@@ -30,27 +30,6 @@ cache:
 
 
 install:
-  - cmd: echo %APPVEYOR%
-  - cmd: echo %APPVEYOR_REPO_BRANCH%
-  - cmd: echo %APPVEYOR_REPO_TAG%
-  - cmd: echo %APPVEYOR_REPO_TAG_NAME%
-  - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE%
-
-  - ps: |
-      If ($Env:APPVEYOR_REPO_TAG -eq "true")
-      {
-        # to do a release, create a tag in the form "Release_VERSION"
-        # this tag will be deleted and a new one created
-        git tag -d $Env:APPVEYOR_REPO_TAG_NAME
-        $ref = ":refs/tags/" + $Env:APPVEYOR_REPO_TAG_NAME
-        Start-Process git -Arg "$push origin $ref" -Wait
-        # git push origin "$ref"
-        $release = $Env:APPVEYOR_REPO_TAG_NAME.split("_", 2)[1]
-        echo $release
-        #Start-Process python -Arg "_build\Build.py --build --package --release --version $release"
-      }
-      exit 1
-
   # HTML Help Workshop 1.32
   # - cinst html-help-workshop
 
@@ -161,9 +140,9 @@ install:
         # this tag will be deleted and a new one created
         git tag -d $Env:APPVEYOR_REPO_TAG_NAME
         $ref = ":refs/tags/" + $Env:APPVEYOR_REPO_TAG_NAME
-        Start-Process git -Arg "$push origin $ref" -Wait
-        # git push origin "$ref"
-        python "_build\Build.py" --build --package --release --version $APPVEYOR_REPO_TAG_NAME.split("_", 2)[1]
+        Start-Process git -Arg "push origin $ref" -Wait
+        $release = $Env:APPVEYOR_REPO_TAG_NAME.split("_", 2)[1]
+        python "_build\Build.py" --build --package --release --version $release
       } Else {
         # WIP
         python "_build\Build.py" --build --package
