@@ -134,10 +134,11 @@ install:
       " "
       "=============== start the EventGhost build ==============="
       " "
-      python "_build\Build.py" --build --package
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - cmd: python "_build\Build.py" --build --package
+  - ps: |
       $Env:SetupExe = gci -recurse -filter "_build\output\*Setup.exe" -name
       " "
-
       "=============== EventGhost build finished ==============="
       " "
       " "
