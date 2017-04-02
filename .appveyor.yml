@@ -148,7 +148,9 @@ install:
         # to do a release, create a tag in the form "Release_VERSION"
         # this tag will be deleted and a new one created
         git tag -d $APPVEYOR_REPO_TAG_NAME
-        git push origin :refs/tags/$APPVEYOR_REPO_TAG_NAME
+        $ref = :refs/tags/$APPVEYOR_REPO_TAG_NAME
+        echo $ref
+        git push origin $ref
         python "_build\Build.py" --build --package --release --version $APPVEYOR_REPO_TAG_NAME.split("_", 2)[1]
       } Else {
         # WIP
