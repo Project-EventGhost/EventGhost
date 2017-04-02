@@ -137,9 +137,14 @@ install:
       If ($Env:APPVEYOR_REPO_TAG -eq "true")
       {
         # to do a release, create a tag in the form "Release_VERSION"
-        # this tag will be deleted and a new one created
+        # this tag will be deleted and a new one created.
+        # example:
+        # git push origin :refs/tags/Release_0.5.0-beta8
+        # git push origin Release_0.5.0-beta8
+
         git tag -d $Env:APPVEYOR_REPO_TAG_NAME
         $ref = ":refs/tags/" + $Env:APPVEYOR_REPO_TAG_NAME
+        $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
         Start-Process git -Arg "push origin $ref" -Wait
         $release = $Env:APPVEYOR_REPO_TAG_NAME.split("_", 2)[1]
         python "_build\Build.py" --build --package --release --version $release
