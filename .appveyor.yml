@@ -30,6 +30,15 @@ cache:
 
 
 install:
+  - cmd: echo %APPVEYOR_PULL_REQUEST_NUMBER%
+  - cmd: echo %APPVEYOR_PULL_REQUEST_TITLE%
+  - cmd: echo %APPVEYOR%
+  - cmd: echo %APPVEYOR_REPO_BRANCH%
+  - cmd: echo %APPVEYOR_REPO_TAG%
+  - cmd: echo %APPVEYOR_REPO_COMMIT%
+  - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE%
+  - cmd: echo %APPVEYOR_SCHEDULED_BUILD%
+
   # HTML Help Workshop 1.32
   # - cinst html-help-workshop
 
