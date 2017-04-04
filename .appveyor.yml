@@ -2,8 +2,8 @@
 # Set it to a token you've created on GitHub.
 # To draft a release on GitHub with AppVeyor, create a tag on master.
 
-skip_commits:
-  message: /Add changelog.*/
+# skip_commits:
+#   message: /Add changelog.*/
 
 version: '{build}-{branch}'
 
