@@ -126,24 +126,6 @@
 **Other changes:**
 
 * \[System\] Removes disabling of widgets if extension not in %PATHEXT% [\#189](https://github.com/EventGhost/EventGhost/pull/189) ([kdschlosser](https://github.com/kdschlosser))
-=======
-## [0.5.0-rc2](https://github.com/ProjectEG/ProjectEG/releases/tag/v0.5.0-rc2) (2017-04-03)
-
-**Enhancements:**
-
-* bring back the -debug command line argument [\#1](https://github.com/ProjectEG/ProjectEG/pull/1) ([topic2k](https://github.com/topic2k))
-* finished AddEventDialog [\#2](https://github.com/ProjectEG/ProjectEG/pull/2) ([topic2k](https://github.com/topic2k))
-* Improve documentation [\#8](https://github.com/ProjectEG/ProjectEG/pull/8) ([topic2k](https://github.com/topic2k))
-
-**Other changes:**
-
-* test3 [\#6](https://github.com/ProjectEG/ProjectEG/pull/6) ([2weizen](https://github.com/2weizen))
-* Speech fixes [\#12](https://github.com/ProjectEG/ProjectEG/pull/12) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#13](https://github.com/ProjectEG/ProjectEG/pull/13) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#14](https://github.com/ProjectEG/ProjectEG/pull/14) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#15](https://github.com/ProjectEG/ProjectEG/pull/15) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#16](https://github.com/ProjectEG/ProjectEG/pull/16) ([topic2k](https://github.com/topic2k))
->>>>>>> Add changelog for v0.5.0-rc2
 
 
 ## [0.5.0-beta6](https://github.com/EventGhost/EventGhost/releases/tag/v0.5.0-beta6) (2017-02-12)
