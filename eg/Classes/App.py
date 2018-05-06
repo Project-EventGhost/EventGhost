@@ -25,7 +25,7 @@ import wx
 import eg
 from eg.WinApi.Dynamic import ExitProcess, SetProcessShutdownParameters
 
-IS_VISTA = eg.WindowsVersion.IsVista()
+IS_VISTA = eg.WindowsVersion >= 'Vista'
 
 if IS_VISTA:
     from eg.WinApi.Dynamic import _user32, BOOL, HWND, LPCWSTR
@@ -200,13 +200,12 @@ class App(wx.App):
     def Restart(self, asAdmin=False):
         def Do():
             from eg.WinApi.PipedProcess import RunAs
+
             args = self.GetArguments()
             args.append("-restart")
-            if self.Exit():
-                RunAs(sys.executable, asAdmin, *args)
-                return True
-            else:
-                return False
+            RunAs(sys.executable, asAdmin, *args)
+            return True
+
         if threading.currentThread() == eg.mainThread:
             return Do()
         else:

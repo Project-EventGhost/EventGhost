@@ -1,91 +1,86 @@
-## [0.6.0-alpha1](https://github.com/ProjectEG/ProjectEG/releases/tag/v0.6.0-alpha1) (2017-04-04)
+## [0.5.0-rc4](https://github.com/EventGhost/EventGhost/releases/tag/v0.5.0-rc4) (2017-07-16)
 
 **Enhancements:**
 
-* bring back the -debug command line argument [\#1](https://github.com/ProjectEG/ProjectEG/pull/1) ([topic2k](https://github.com/topic2k))
-* finished AddEventDialog [\#2](https://github.com/ProjectEG/ProjectEG/pull/2) ([topic2k](https://github.com/topic2k))
-* Improve documentation [\#8](https://github.com/ProjectEG/ProjectEG/pull/8) ([topic2k](https://github.com/topic2k))
+* Changes XmlIdLink to eg.GUID \(see comment for more info\) [\#264](https://github.com/EventGhost/EventGhost/pull/264) ([kdschlosser](https://github.com/kdschlosser))
+  
+  The use of XmlId made it difficult to share code that used 'Enable/Disable Action' or 'Exlusive Enable' (and others). Now with the use of GUID's this hurdle is gone.
+
+  To turn it on you would open the add plugin dialog and left click once in the upper right hand corner of the dialog (client area) and then click once in the lower left hand corner of the dialog (client area). There is a 20x20 pixel target for each of the spots so the chance of someone doing this accidentally is probably not going to happen. But in the event it does, a message box asking if you want to enable or disable it pops up.
+
+  **Warning: This process cannot be undone, so make a backup copy of your config tree before enabling it.**
+
+**Fixed bugs:**
+
+* SoundMixer: Fixes traceback when using the Primary Sound Driver [\#255](https://github.com/EventGhost/EventGhost/pull/255) ([kdschlosser](https://github.com/kdschlosser))
+* NamedPipe: Fixes traceback if returned item is not able to be evaluated [\#256](https://github.com/EventGhost/EventGhost/pull/256) ([kdschlosser](https://github.com/kdschlosser))
+* Fixes restart not working from the file dropdown menu [\#257](https://github.com/EventGhost/EventGhost/pull/257) ([kdschlosser](https://github.com/kdschlosser))
+* SoundMixer: Fixes lag when setting the relative volume [\#258](https://github.com/EventGhost/EventGhost/pull/258) ([kdschlosser](https://github.com/kdschlosser))
+* EventThread: Fixes -event not working from cli if there is no EG running [\#261](https://github.com/EventGhost/EventGhost/pull/261) ([kdschlosser](https://github.com/kdschlosser))
+* \[System\] Fix Monitor On action not functioning properly in Windows \> 8 [\#262](https://github.com/EventGhost/EventGhost/pull/262) ([kdschlosser](https://github.com/kdschlosser))
+* CLI: fix bug when showing message on -netsend failure [\#263](https://github.com/EventGhost/EventGhost/pull/263) ([topic2k](https://github.com/topic2k))
 
 **Other changes:**
 
-* test3 [\#6](https://github.com/ProjectEG/ProjectEG/pull/6) ([2weizen](https://github.com/2weizen))
-* Speech fixes [\#12](https://github.com/ProjectEG/ProjectEG/pull/12) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#13](https://github.com/ProjectEG/ProjectEG/pull/13) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#14](https://github.com/ProjectEG/ProjectEG/pull/14) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#15](https://github.com/ProjectEG/ProjectEG/pull/15) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#16](https://github.com/ProjectEG/ProjectEG/pull/16) ([topic2k](https://github.com/topic2k))
+* \[XBMC2\] update plugin to 0.6.33 [\#259](https://github.com/EventGhost/EventGhost/pull/259) ([topic2k](https://github.com/topic2k))
 
 
-## [0.5.0](https://github.com/ProjectEG/ProjectEG/releases/tag/v0.5.0) (2017-04-04)
+## [0.5.0-rc3](https://github.com/EventGhost/EventGhost/releases/tag/v0.5.0-rc3) (2017-07-03)
 
 **Enhancements:**
 
-* bring back the -debug command line argument [\#1](https://github.com/ProjectEG/ProjectEG/pull/1) ([topic2k](https://github.com/topic2k))
-* finished AddEventDialog [\#2](https://github.com/ProjectEG/ProjectEG/pull/2) ([topic2k](https://github.com/topic2k))
-* Improve documentation [\#8](https://github.com/ProjectEG/ProjectEG/pull/8) ([topic2k](https://github.com/topic2k))
+* Document all command line options [\#235](https://github.com/EventGhost/EventGhost/pull/235) ([per1234](https://github.com/per1234))
+* Add Named pipe support to solve the problem with elevations [\#240](https://github.com/EventGhost/EventGhost/pull/240) ([kdschlosser](https://github.com/kdschlosser))
+* eg.WinApi: Functions to get information about logged in user [\#254](https://github.com/EventGhost/EventGhost/pull/254) ([kdschlosser](https://github.com/kdschlosser))
+
+**Fixed bugs:**
+
+* MainMessageReceiver: Fixes broken clipboard chain in windows 10 \(reported by saue0\) [\#227](https://github.com/EventGhost/EventGhost/pull/227) ([kdschlosser](https://github.com/kdschlosser))
+* \[SchedulGhost\] update plugin to 0.1.18 [\#238](https://github.com/EventGhost/EventGhost/pull/238) ([topic2k](https://github.com/topic2k))
+* Fixes incorrect checking of powerbroadcast notification message [\#241](https://github.com/EventGhost/EventGhost/pull/241) ([kdschlosser](https://github.com/kdschlosser))
+* \[Broadcaster\] Fixes depreciation warning from asyncore.dispatcher [\#242](https://github.com/EventGhost/EventGhost/pull/242) ([kdschlosser](https://github.com/kdschlosser))
+* \[USBUIRT\] Fixes learn ir dialog not closing [\#243](https://github.com/EventGhost/EventGhost/pull/243) ([kdschlosser](https://github.com/kdschlosser))
+* \[MCERemoteVista\] Upgrades MCERemoteVista to version 1.4 [\#244](https://github.com/EventGhost/EventGhost/pull/244) ([kdschlosser](https://github.com/kdschlosser))
+* \[System\] fix GetMasterVolume \(move use of VistaVolEvents to eg.WinApi.SoundMixer\) [\#246](https://github.com/EventGhost/EventGhost/pull/246) ([kdschlosser](https://github.com/kdschlosser))
+* NamedPipe: Fixes possible endless loop if -restart is used at the CLI [\#247](https://github.com/EventGhost/EventGhost/pull/247) ([kdschlosser](https://github.com/kdschlosser))
+* Typo - Text.py, Fixes typo in save dialog [\#250](https://github.com/EventGhost/EventGhost/pull/250) ([kdschlosser](https://github.com/kdschlosser))
+* Moves initialization of python paths to the first thing that EG does [\#253](https://github.com/EventGhost/EventGhost/pull/253) ([kdschlosser](https://github.com/kdschlosser))
 
 **Other changes:**
 
-* test3 [\#6](https://github.com/ProjectEG/ProjectEG/pull/6) ([2weizen](https://github.com/2weizen))
-* Speech fixes [\#12](https://github.com/ProjectEG/ProjectEG/pull/12) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#13](https://github.com/ProjectEG/ProjectEG/pull/13) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#14](https://github.com/ProjectEG/ProjectEG/pull/14) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#15](https://github.com/ProjectEG/ProjectEG/pull/15) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#16](https://github.com/ProjectEG/ProjectEG/pull/16) ([topic2k](https://github.com/topic2k))
+* Remove wiki content from documentation [\#234](https://github.com/EventGhost/EventGhost/pull/234) ([per1234](https://github.com/per1234))
 
 
-## [0.5.0-rc2](https://github.com/ProjectEG/ProjectEG/releases/tag/v0.5.0-rc2) (2017-04-04)
+## [0.5.0-rc2](https://github.com/EventGhost/EventGhost/releases/tag/v0.5.0-rc2) (2017-04-20)
+
+**Fixed bugs:**
+
+* Fixes incorrect replacement usage of IsVista\(\) and IsXP\(\) [\#221](https://github.com/EventGhost/EventGhost/pull/221) ([kdschlosser](https://github.com/kdschlosser))
+
+
+## [0.5.0-rc1](https://github.com/EventGhost/EventGhost/releases/tag/v0.5.0-rc1) (2017-04-16)
+
+**Important changes for plugin developers:**
+
+* Add class for windows version checking [\#210](https://github.com/EventGhost/EventGhost/pull/210) ([topic2k](https://github.com/topic2k))
 
 **Enhancements:**
 
-* bring back the -debug command line argument [\#1](https://github.com/ProjectEG/ProjectEG/pull/1) ([topic2k](https://github.com/topic2k))
-* finished AddEventDialog [\#2](https://github.com/ProjectEG/ProjectEG/pull/2) ([topic2k](https://github.com/topic2k))
-* Improve documentation [\#8](https://github.com/ProjectEG/ProjectEG/pull/8) ([topic2k](https://github.com/topic2k))
+* WindowsVersion, Fixes issue with help [\#215](https://github.com/EventGhost/EventGhost/pull/215) ([kdschlosser](https://github.com/kdschlosser))
+* Add menu to restart EG with admin rights [\#218](https://github.com/EventGhost/EventGhost/pull/218) ([topic2k](https://github.com/topic2k))
+
+**Fixed bugs:**
+
+* Fixes log being scrolled to the top after restored from tray icon [\#199](https://github.com/EventGhost/EventGhost/pull/199) ([kdschlosser](https://github.com/kdschlosser))
+* \[System\] Adds Windows XP support and moves the registering of the GUID's to the main thread [\#204](https://github.com/EventGhost/EventGhost/pull/204) ([kdschlosser](https://github.com/kdschlosser))
+* Fixes exit not working from system tray icon when minimized [\#207](https://github.com/EventGhost/EventGhost/pull/207) ([kdschlosser](https://github.com/kdschlosser))
+* Fixes incorrect reporting of windows version [\#211](https://github.com/EventGhost/EventGhost/pull/211) ([kdschlosser](https://github.com/kdschlosser))
+* \[EventGhost\] \(PythonScript\) Fixes PrintError traceback [\#219](https://github.com/EventGhost/EventGhost/pull/219) ([kdschlosser](https://github.com/kdschlosser))
+* \[ProcessWatcher\] Fixes thread not closing properly [\#220](https://github.com/EventGhost/EventGhost/pull/220) ([kdschlosser](https://github.com/kdschlosser))
 
 **Other changes:**
 
-* test3 [\#6](https://github.com/ProjectEG/ProjectEG/pull/6) ([2weizen](https://github.com/2weizen))
-* Speech fixes [\#12](https://github.com/ProjectEG/ProjectEG/pull/12) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#13](https://github.com/ProjectEG/ProjectEG/pull/13) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#14](https://github.com/ProjectEG/ProjectEG/pull/14) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#15](https://github.com/ProjectEG/ProjectEG/pull/15) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#16](https://github.com/ProjectEG/ProjectEG/pull/16) ([topic2k](https://github.com/topic2k))
-
-
-## [0.5.0-rc2](https://github.com/ProjectEG/ProjectEG/releases/tag/v0.5.0-rc2) (2017-04-04)
-
-**Enhancements:**
-
-* bring back the -debug command line argument [\#1](https://github.com/ProjectEG/ProjectEG/pull/1) ([topic2k](https://github.com/topic2k))
-* finished AddEventDialog [\#2](https://github.com/ProjectEG/ProjectEG/pull/2) ([topic2k](https://github.com/topic2k))
-* Improve documentation [\#8](https://github.com/ProjectEG/ProjectEG/pull/8) ([topic2k](https://github.com/topic2k))
-
-**Other changes:**
-
-* test3 [\#6](https://github.com/ProjectEG/ProjectEG/pull/6) ([2weizen](https://github.com/2weizen))
-* Speech fixes [\#12](https://github.com/ProjectEG/ProjectEG/pull/12) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#13](https://github.com/ProjectEG/ProjectEG/pull/13) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#14](https://github.com/ProjectEG/ProjectEG/pull/14) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#15](https://github.com/ProjectEG/ProjectEG/pull/15) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#16](https://github.com/ProjectEG/ProjectEG/pull/16) ([topic2k](https://github.com/topic2k))
-
-
-## [0.5.0-rc2](https://github.com/ProjectEG/ProjectEG/releases/tag/v0.5.0-rc2) (2017-04-03)
-
-**Enhancements:**
-
-* bring back the -debug command line argument [\#1](https://github.com/ProjectEG/ProjectEG/pull/1) ([topic2k](https://github.com/topic2k))
-* finished AddEventDialog [\#2](https://github.com/ProjectEG/ProjectEG/pull/2) ([topic2k](https://github.com/topic2k))
-* Improve documentation [\#8](https://github.com/ProjectEG/ProjectEG/pull/8) ([topic2k](https://github.com/topic2k))
-
-**Other changes:**
-
-* test3 [\#6](https://github.com/ProjectEG/ProjectEG/pull/6) ([2weizen](https://github.com/2weizen))
-* Speech fixes [\#12](https://github.com/ProjectEG/ProjectEG/pull/12) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#13](https://github.com/ProjectEG/ProjectEG/pull/13) ([topic2k](https://github.com/topic2k))
-* Contrib guide [\#14](https://github.com/ProjectEG/ProjectEG/pull/14) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#15](https://github.com/ProjectEG/ProjectEG/pull/15) ([topic2k](https://github.com/topic2k))
-* Appveyor bot test [\#16](https://github.com/ProjectEG/ProjectEG/pull/16) ([topic2k](https://github.com/topic2k))
+* \[System\] Removes disabling of widgets if extension not in %PATHEXT% [\#189](https://github.com/EventGhost/EventGhost/pull/189) ([kdschlosser](https://github.com/kdschlosser))
 
 
 ## [0.5.0-beta6](https://github.com/EventGhost/EventGhost/releases/tag/v0.5.0-beta6) (2017-02-12)

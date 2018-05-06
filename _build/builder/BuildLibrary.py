@@ -69,25 +69,48 @@ class BuildLibrary(builder.Task):
                 if not os.path.isdir(path):
                     os.remove(path)
 
+        wip_version = None
+        if buildSetup.appVersion.startswith("WIP-"):
+            # this is to avoid a py2exe warning when building a WIP version
+            wip_version = buildSetup.appVersion
+            buildSetup.appVersion = ".".join(
+                buildSetup.appVersion.split("-")[1].split(".")
+            )
+
         setup(
             script_args=["py2exe"],
             windows=[Target(buildSetup)],
-            verbose=0,
+            verbose=buildSetup.args.verbose,
             zipfile=EncodePath(join(buildSetup.libraryName, self.zipName)),
-            options = dict(
+            options=dict(
                 build=dict(build_base=join(buildSetup.tmpDir, "build")),
                 py2exe=dict(
                     compressed=0,
-                    includes=["encodings", "encodings.*", "Imports"],
+                    includes=[
+                        "agithub",
+                        "agithub.GitHub",
+                        "encodings",
+                        "encodings.*",
+                        "Imports",
+                        "pycurl",
+                        "qrcode",
+                        "requests",
+                        "tornado",
+                        "tornado.*",
+                        "websocket",
+                    ],
                     excludes=buildSetup.excludeModules,
-                    dll_excludes = DLL_EXCLUDES,
-                    dist_dir = EncodePath(buildSetup.sourceDir),
+                    dll_excludes=DLL_EXCLUDES,
+                    dist_dir=EncodePath(buildSetup.sourceDir),
                     custom_boot_script=join(
                         buildSetup.dataDir, "Py2ExeBootScript.py"
                     ),
                 )
             )
         )
+
+        if wip_version:
+            buildSetup.appVersion = wip_version
 
         dllNames = [basename(name) for name in glob(join(libraryDir, "*.dll"))]
         neededDlls = []
@@ -111,7 +134,7 @@ class BuildLibrary(builder.Task):
 class Target:
     def __init__(self, buildSetup):
         self.icon_resources = []
-        iconPath = join(buildSetup.dataDir, "Main.ico")
+        iconPath = join(buildSetup.docsDir, "_static", "logo.ico")
         if exists(iconPath):
             self.icon_resources.append((1, iconPath))
         manifest = file(
