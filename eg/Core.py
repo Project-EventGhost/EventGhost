@@ -65,7 +65,7 @@ eg.namedPipe = NamedPipe.Server()
 if eg.Cli.args.isMain:
     eg.namedPipe.start()
 
-eg.ID_TEST = wx.NewId()
+eg.ID_TEST = wx.NewIdRef()
 eg.mainDir = eg.Cli.mainDir
 
 eg.revision = 2000  # Deprecated
@@ -112,6 +112,9 @@ def _CommandEvent():
 
         def SetValue(self, value):
             self.value = value
+
+        def Clone(self):
+            return _Event(id=self.GetId(), value=self.GetValue())
 
     return _Event, wx.PyEventBinder(evttype, 1)
 
