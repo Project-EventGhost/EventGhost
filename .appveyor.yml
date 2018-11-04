@@ -72,14 +72,6 @@ install:
         Start-Process MsiExec.exe -Arg "/I $StacklessInstaller /quiet /passive /qn /norestart $StacklessInstallDir" -Wait
         "    Done."
         " "
-        "--- wxPython 3.0.2.0"
-        $WXInstaller = $InstallersFolder + "wxPython3.0-win32-3.0.2.0-py27.exe"
-        $WXURL = "http://downloads.sourceforge.net/wxpython/wxPython3.0-win32-3.0.2.0-py27.exe"
-        Start-FileDownload $WXURL -Timeout 60000 -FileName $WXInstaller
-        "    Installing..."
-        Start-Process $WXInstaller -Arg "/VERYSILENT /SUPPRESSMSGBOXES" -NoNewWindow -Wait
-        "    Done."
-        " "
         "--- pip 9.0.1"
         "    Updating..."
         python -m pip install -q -U "pip==9.0.1"
@@ -90,6 +82,7 @@ install:
         pip install -q -U "setuptools==34.3.0"
         "    Done."
         PipInstall "wheel 0.29.0" "wheel==0.29.0"
+        PipInstall "wxPython 4.0.3" "wxPython==4.0.3"
         # sphinx >= 1.4.9 installs jinja2 >= 2.3 as dependency,
         # jinja2 >= 2.9 has an async module which py2exe has
         # problems with (build of eg will fail)
