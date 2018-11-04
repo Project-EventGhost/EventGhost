@@ -264,9 +264,8 @@ DEPENDENCIES = [
     StacklessDependency(),
     ModuleDependency(
         name = "wxPython",
-        module = "wx",
-        version = "3.0.2.0",
-        url = "https://eventghost.github.io/dist/dependencies/wxPython-3.0.2.0-cp27-none-win32.whl",
+        module = "wxPython",
+        version = "4.0.3",
     ),
 ]
 
