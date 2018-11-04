@@ -264,7 +264,7 @@ DEPENDENCIES = [
     StacklessDependency(),
     ModuleDependency(
         name = "wxPython",
-        module = "wxPython",
+        module = "wx",
         version = "4.0.3",
     ),
 ]
