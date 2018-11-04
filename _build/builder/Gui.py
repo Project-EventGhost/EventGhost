@@ -140,9 +140,9 @@ class MainDialog(wx.Dialog):
             parent=sb,
             label=url_txt
         )
-        lbl_url.SetToolTipString(url_txt)
+        lbl_url.SetToolTip(url_txt)
         self.url = wx.TextCtrl(sb, value=self.buildSetup.args.websiteUrl)
-        self.url.SetToolTipString(url_txt)
+        self.url.SetToolTip(url_txt)
         web_szr.Add(lbl_url)
         web_szr.Add(self.url, 0, wx.EXPAND)
 

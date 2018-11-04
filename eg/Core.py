@@ -57,7 +57,7 @@ eg.CORE_PLUGIN_GUIDS = (
     "{6B1751BF-F94E-4260-AB7E-64C0693FD959}",  # "Mouse"
 )
 
-eg.ID_TEST = wx.NewId()
+eg.ID_TEST = wx.NewIdRef()
 eg.mainDir = eg.Cli.mainDir
 
 eg.revision = 2000  # Deprecated
@@ -104,6 +104,9 @@ def _CommandEvent():
 
         def SetValue(self, value):
             self.value = value
+
+        def Clone(self):
+            return _Event(id=self.GetId(), value=self.GetValue())
 
     return _Event, wx.PyEventBinder(evttype, 1)
 
