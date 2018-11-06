@@ -159,7 +159,6 @@ class MainDialog(wx.Dialog):
 
     def DoMain(self):
         builder.Tasks.Main(self.buildSetup)
-        wx.CallAfter(self.OnExit)
 
     def OnCancel(self, event):
         event.Skip()
@@ -173,7 +172,7 @@ class MainDialog(wx.Dialog):
 
     def OnExit(self):
         self.Destroy()
-        sys.exit(0)
+        wx.GetApp().ExitMainLoop()
 
     def OnInstallerCheck(self, event):
         # We don't want releases going out without a current changelog (which
@@ -230,6 +229,7 @@ class MainDialog(wx.Dialog):
         self.buildSetup.config.SaveSettings()
         thread = threading.Thread(target=self.DoMain)
         thread.start()
+        self.OnExit()
 
     def OnRefreshVersion(self, event):
         GetVersion(self.buildSetup)
