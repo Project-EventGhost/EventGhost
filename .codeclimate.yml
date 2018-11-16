@@ -51,10 +51,10 @@ plugins:
     config:
       python_version: 2
       threshold: "D"
-  bandit:
-    enabled: true
-    config:
-      python_version: 2
+#  bandit:
+#    enabled: true
+#    config:
+#      python_version: 2
 
 exclude_patterns:
   - "lib27/"
