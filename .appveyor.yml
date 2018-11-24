@@ -126,8 +126,6 @@ install:
         python "_build\Build.py" --build --package --release --version $release $url
       } Else {
         # WIP
-        $blockRdp = $true;
-        iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
         python "_build\Build.py" --build --package
         .\EventGhost.exe -install
       }
