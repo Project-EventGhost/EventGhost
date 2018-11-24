@@ -118,7 +118,7 @@ eg.dummyAsyncoreDispatcher = None
 
 from eg.WinApi.Dynamic import GetCurrentProcessId  # NOQA
 eg.processId = GetCurrentProcessId()
-Init.InitPil()
+
 
 class Exception(Exception):
     def __unicode__(self):
