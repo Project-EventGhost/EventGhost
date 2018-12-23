@@ -12,7 +12,7 @@
 !/lib??/site-packages/
 
 # IDE storage
-/.*/
+/.idea/
 
 # Python
 __pycache__/
