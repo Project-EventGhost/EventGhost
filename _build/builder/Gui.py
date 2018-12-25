@@ -17,11 +17,9 @@
 # with EventGhost. If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import threading
-import wx
 
-# Local imports
 import builder
+import wx
 from builder.Utils import GetVersion, ParseVersion
 
 
@@ -157,20 +155,14 @@ class MainDialog(wx.Dialog):
         self.Center()
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
-    def DoMain(self):
-        builder.Tasks.Main(self.buildSetup)
-
     def OnCancel(self, event):
         event.Skip()
         self.Destroy()
         wx.GetApp().ExitMainLoop()
 
-    def OnClose(self, event):
-        event.Skip()
-        self.Destroy()
-        wx.GetApp().ExitMainLoop()
-
-    def OnExit(self):
+    def OnClose(self, event=None):
+        if event:
+            event.Skip()
         self.Destroy()
         wx.GetApp().ExitMainLoop()
 
@@ -188,7 +180,7 @@ class MainDialog(wx.Dialog):
             else:
                 ctrl.Enable(True)
 
-    def OnOk(self, dummyEvent):
+    def OnOk(self, event):
         repository = self.chcRepo.GetStringSelection()
         try:
             user, repo = repository.split('/')
@@ -227,9 +219,16 @@ class MainDialog(wx.Dialog):
         self.buildSetup.args.websiteUrl = self.url.GetValue()
 
         self.buildSetup.config.SaveSettings()
-        thread = threading.Thread(target=self.DoMain)
-        thread.start()
-        self.OnExit()
+        builder.Tasks.Main(self.buildSetup)
+        from .BuildDocs import eg
+        eg
+        wx.CallAfter(self.OnClose)
+        # self.Destroy()
+        # # wx.GetApp().ExitMainLoop()
+        # app= wx.GetApp()
+        # app.Has
+        # exit(0)
+        # # sys.exit(0)
 
     def OnRefreshVersion(self, event):
         GetVersion(self.buildSetup)
