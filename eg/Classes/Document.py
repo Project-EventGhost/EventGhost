@@ -477,10 +477,8 @@ class Document(object):
     @eg.LogItWithReturn
     def ShowFrame(self):
         if self.reentrantLock.acquire(False):
-            if self.frame is None:
-                self.frame = eg.mainFrame = eg.MainFrame(self)
             else:
-                self.frame.Iconize(False)
+
             self.frame.Show()
             self.frame.Raise()
             self.reentrantLock.release()
