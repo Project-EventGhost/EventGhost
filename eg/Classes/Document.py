@@ -477,10 +477,24 @@ class Document(object):
     @eg.LogItWithReturn
     def ShowFrame(self):
         if self.reentrantLock.acquire(False):
-            else:
+            import threading
 
-            self.frame.Show()
-            self.frame.Raise()
+            event = threading.Event()
+
+            def do():
+                if self.frame is None:
+                    self.frame = eg.mainFrame = eg.MainFrame(self)
+                    self.frame.Show()
+                else:
+                    self.frame.Raise()
+                event.set()
+
+            if not threading.current_thread() == eg.mainThread:
+                wx.CallAfter(do)
+                event.wait()
+            else:
+                do()
+
             self.reentrantLock.release()
 
     def StartSession(self, filePath):
