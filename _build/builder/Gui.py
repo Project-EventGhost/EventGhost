@@ -180,7 +180,7 @@ class MainDialog(wx.Dialog):
             else:
                 ctrl.Enable(True)
 
-    def OnOk(self, event):
+    def OnOk(self, dummyEvent):
         repository = self.chcRepo.GetStringSelection()
         try:
             user, repo = repository.split('/')
@@ -220,15 +220,7 @@ class MainDialog(wx.Dialog):
 
         self.buildSetup.config.SaveSettings()
         builder.Tasks.Main(self.buildSetup)
-        from .BuildDocs import eg
-        eg
         wx.CallAfter(self.OnClose)
-        # self.Destroy()
-        # # wx.GetApp().ExitMainLoop()
-        # app= wx.GetApp()
-        # app.Has
-        # exit(0)
-        # # sys.exit(0)
 
     def OnRefreshVersion(self, event):
         GetVersion(self.buildSetup)

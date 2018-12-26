@@ -166,7 +166,7 @@ artifacts:
     name: $(SetupExe)
   - path: _build\output\Build.log
   - path: _build\output\CHANGELOG.md
-  - path: _build\output\CHANGELOG_THIS_RELEASE.bb
+    name: CHANGELOG.md
   - path: _build\output\CHANGELOG_THIS_RELEASE.md
     name: CHANGELOG_THIS_RELEASE.md
   - path: _build\output\CHANGELOG_THIS_RELEASE.bb
@@ -198,9 +198,24 @@ notifications:
   template: >-
     <{{buildUrl}}|{{projectName}} {{buildVersion}} {{status}}>
 
+    Commit <{{commitUrl}}|{{commitId}}> by {{commitAuthor}} on {{commitDate}}:
 
-#on_finish:
-#  # Enable Remotedesktop and pause the build execution
+    Commit message: _{{commitMessage}}_
+
+
+    Artifacts:
+
+    {{#jobs}}{{#artifacts}}<{{permalink}}|{{name}}>
+
+    {{/artifacts}}{{/jobs}}
+
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
+
+
+
+#on_finish:#  # Enable Remotedesktop and pause the build execution
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 
