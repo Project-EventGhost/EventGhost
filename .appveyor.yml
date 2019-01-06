@@ -212,9 +212,9 @@ notifications:
 
 
 
-- #on_finish:
-- #  # Enable Remotedesktop and pause the build execution
-  #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  # Enable Remotedesktop and pause the build execution
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 # notifications:
 #   - provider: GitHubPullRequest
