@@ -128,7 +128,7 @@ class MainFrame(wx.Frame):
         self.SetIcons(iconBundle)
 
         self.Bind(wx.EVT_ICONIZE, self.OnIconize)
-        self.Bind(wx.EVT_MENU_OPEN, self.OnMenuOpen)
+        self.menuBar.Bind(wx.EVT_MENU_OPEN, self.OnMenuOpen)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.mainSizeFlag = True
         self.ratioLock = False
