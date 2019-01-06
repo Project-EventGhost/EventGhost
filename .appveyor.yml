@@ -165,6 +165,7 @@ artifacts:
   - path: _build\output\$(SetupExe)
     name: $(SetupExe)
   - path: _build\output\Build.log
+    name: Build.log
   - path: _build\output\CHANGELOG.md
     name: CHANGELOG.md
   - path: _build\output\CHANGELOG_THIS_RELEASE.md
@@ -215,9 +216,9 @@ notifications:
 
 
 
-- #on_finish:
-- #  # Enable Remotedesktop and pause the build execution
-  #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  # Enable Remotedesktop and pause the build execution
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 
 # notifications:

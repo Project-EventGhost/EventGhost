@@ -315,7 +315,7 @@ def GetClosestLanguage():
         if langFiles:
             return langFiles[0]
 
-    return "en_US"
+    return "en_EN"
 
 def GetFirstParagraph(text):
     """
