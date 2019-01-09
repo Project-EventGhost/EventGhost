@@ -109,8 +109,8 @@ class BuildLibrary(builder.Task):
                     compressed=0,
                     includes=["encodings", "encodings.*", "Imports"],
                     excludes=buildSetup.excludeModules,
-                    dll_excludes = DLL_EXCLUDES,
-                    dist_dir = EncodePath(buildSetup.sourceDir),
+                    dll_excludes=DLL_EXCLUDES,
+                    dist_dir=EncodePath(buildSetup.sourceDir),
                     custom_boot_script=join(
                         buildSetup.dataDir, "Py2ExeBootScript.py"
                     ),
