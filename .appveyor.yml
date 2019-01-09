@@ -77,10 +77,10 @@ install:
         python -m pip install --disable-pip-version-check --no-cache-dir -q -U "pip==9.0.3"
         "    Done."
         " "
-        "--- setuptools 34.3.0"
-        "    Updating..."
-        pip install -q -U "setuptools==34.3.0"
-        "    Done."
+        # "--- setuptools 34.3.0"
+        # "    Updating..."
+        # pip install -q -U "setuptools==34.3.0"
+        # "    Done."
         PipInstall "wxPython 4.0.4" "wxPython==4.0.4"
         # PipInstall "wheel 0.32.3" "wheel==0.29.0"
         PipInstall "sphinx 1.8.3" "sphinx==1.8.3"
@@ -109,6 +109,7 @@ install:
       #"    Done."
       " "
       " "
+      pip list
       "=============== start the EventGhost build ==============="
       " "
       If ($Env:APPVEYOR_REPO_TAG.tolower() -eq "true" -and

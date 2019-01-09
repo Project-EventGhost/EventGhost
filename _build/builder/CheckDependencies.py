@@ -208,7 +208,7 @@ DEPENDENCIES = [
     ModuleDependency(
         name = "commonmark",
         module = "commonmark",
-        version = "0.8.",
+        version = "0.8.1",
     ),
     ModuleDependency(
         name = "comtypes",
@@ -371,8 +371,10 @@ def Choco(*args):
     return (StartProcess(choco, *args) == 0)
 
 def CompareVersion(actualVersion, wantedVersion):
+    print actualVersion, wantedVersion
     wantedParts = wantedVersion.split(".")
     actualParts = actualVersion.split(".")
+    print wantedParts, actualParts
     numParts = min(len(wantedParts), len(actualParts))
     for i in range(numParts):
         wantedPart = wantedParts[i]
