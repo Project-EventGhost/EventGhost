@@ -1,0 +1,21 @@
+# Stackless Python 2.7
+# Microsoft HTML Workshop 1.32
+# InnoSetup 5.5.9
+# wxPython 3.0.2
+
+pip==9.0.1
+setuptools==34.3.0
+wheel==0.29.0
+# sphinx >= 1.4.9 installs jinja2 >= 2.3 as dependency,
+# jinja2 >= 2.9 has an async module which py2exe has
+# problems with (build of eg will fail)
+jinja2==2.8.1  # pyup: >=2.8,<2.9
+sphinx==1.5.6  # pyup: <1.6
+commonmark==0.7.3
+pillow==3.4.2
+py2exe_py2==0.6.9
+pycrypto==2.6.1
+comtypes==https://github.com/enthought/comtypes/archive/1.1.3.zip
+ctypeslib==svn+http://svn.python.org/projects/ctypes/trunk/ctypeslib/#ctypeslib=0.5.6
+paramiko==2.2.1
+pywin32==224
