@@ -371,10 +371,8 @@ def Choco(*args):
     return (StartProcess(choco, *args) == 0)
 
 def CompareVersion(actualVersion, wantedVersion):
-    print actualVersion, wantedVersion
     wantedParts = wantedVersion.split(".")
     actualParts = actualVersion.split(".")
-    print wantedParts, actualParts
     numParts = min(len(wantedParts), len(actualParts))
     for i in range(numParts):
         wantedPart = wantedParts[i]
