@@ -174,7 +174,7 @@ class MainDialog(wx.Dialog):
             self.ctrls["builder.BuildChangelog.BuildChangelog"],
             self.ctrls["builder.BuildDocs.BuildChmDocs"],
         ):
-            if event is True or event.Checked():
+            if event is True or event.IsChecked():
                 ctrl.Enable(False)
                 ctrl.SetValue(True)
             else:
